@@ -11,8 +11,7 @@ namespace TSDParser
     {
         public static Parser<string> Identifier = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit);
 
-        public static Parser<string> TypeName =
-            Identifier;
+        public static Parser<string> TypeName = Parse.Identifier(Parse.AnyChar, Parse.Or(Parse.LetterOrDigit, Parse.Chars("]")));
 
         public static Parser<Property> Property =
             from name in Identifier.Token()
