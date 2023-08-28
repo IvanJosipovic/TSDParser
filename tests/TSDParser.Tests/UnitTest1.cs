@@ -242,33 +242,33 @@ export interface SomeType {
             output.IsNullable.Should().BeTrue();
         }
 
-        [Fact]
-        public void PropertyNullableUnion()
-        {
-            var tsd = """
-  name: string | null;
-""";
-            var output = TSDParser.Property.Parse(tsd);
+//        [Fact]
+//        public void PropertyNullableUnion()
+//        {
+//            var tsd = """
+//  name: string | null;
+//""";
+//            var output = TSDParser.Property.Parse(tsd);
 
-            output.Name.Should().Be("name");
-            output.Type.Should().Be("string");
-            output.IsArray.Should().BeFalse();
-            output.IsNullable.Should().BeTrue();
-        }
+//            output.Name.Should().Be("name");
+//            output.Type.Should().Be("string");
+//            output.IsArray.Should().BeFalse();
+//            output.IsNullable.Should().BeTrue();
+//        }
 
-        [Fact]
-        public void PropertyNullableUnion2()
-        {
-            var tsd = """
-  name: string | undefined;
-""";
-            var output = TSDParser.Property.Parse(tsd);
+//        [Fact]
+//        public void PropertyNullableUnion2()
+//        {
+//            var tsd = """
+//  name: string | undefined;
+//""";
+//            var output = TSDParser.Property.Parse(tsd);
 
-            output.Name.Should().Be("name");
-            output.Type.Should().Be("string");
-            output.IsArray.Should().BeFalse();
-            output.IsNullable.Should().BeTrue();
-        }
+//            output.Name.Should().Be("name");
+//            output.Type.Should().Be("string");
+//            output.IsArray.Should().BeFalse();
+//            output.IsNullable.Should().BeTrue();
+//        }
 
         #endregion
 

@@ -15,3 +15,4 @@ Features:
   - Interfaces
   - Functions
   - Properties
+  - Types
