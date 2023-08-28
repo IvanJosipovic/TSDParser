@@ -11,9 +11,11 @@ namespace TSDParser
         public static Parser<string> ParseComment()
         {
             return
-                from open in Parse.String("/*").Token()
-                from content in Parse.AnyChar.Until(Parse.String("*/")).Text()
-                select RemoveChars(content.Split("\r\n").Aggregate((x, y) => RemoveChars(x) + "\r\n" + RemoveChars(y)));
+                from comment in new CommentParser("//", "/*", "*/", "\r\n").AnyComment.Token()
+                select comment.Trim()
+                              .Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                              .Select(RemoveChars)
+                              .Aggregate((x, y) => x + "\r\n" + y).Trim();
 
             static string RemoveChars(string line)
             {
@@ -86,6 +88,13 @@ namespace TSDParser
     {
         public string Name { get; set; }
         public string Type { get; set; }
+        public bool IsNullable { get; set; }
+        public bool IsArray { get; set; }
+    }
+
+    public class Type
+    {
+        public string Name { get; set; }
         public bool IsNullable { get; set; }
         public bool IsArray { get; set; }
     }

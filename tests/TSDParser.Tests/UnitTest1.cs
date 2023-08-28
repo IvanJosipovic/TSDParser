@@ -131,6 +131,7 @@ export interface SomeType {
             var output = TSDParser.Function.Parse(tsd);
 
             output.Name.Should().Be("myFunc");
+            output.Type.Should().Be("void");
         }
 
         [Fact]
@@ -142,6 +143,7 @@ export interface SomeType {
             var output = TSDParser.Function.Parse(tsd);
 
             output.Name.Should().Be("myFunc");
+            output.Type.Should().Be("void");
         }
 
         [Fact]
@@ -153,6 +155,7 @@ export interface SomeType {
             var output = TSDParser.Function.Parse(tsd);
 
             output.Name.Should().Be("myFunc");
+            output.Type.Should().Be("void");
         }
 
         [Fact]
@@ -164,6 +167,7 @@ export interface SomeType {
             var output = TSDParser.Function.Parse(tsd);
 
             output.Name.Should().Be("myFunc");
+            output.Type.Should().Be("void");
         }
 
         #endregion
@@ -229,6 +233,34 @@ export interface SomeType {
         {
             var tsd = """
   name?: string;
+""";
+            var output = TSDParser.Property.Parse(tsd);
+
+            output.Name.Should().Be("name");
+            output.Type.Should().Be("string");
+            output.IsArray.Should().BeFalse();
+            output.IsNullable.Should().BeTrue();
+        }
+
+        [Fact]
+        public void PropertyNullableUnion()
+        {
+            var tsd = """
+  name: string | null;
+""";
+            var output = TSDParser.Property.Parse(tsd);
+
+            output.Name.Should().Be("name");
+            output.Type.Should().Be("string");
+            output.IsArray.Should().BeFalse();
+            output.IsNullable.Should().BeTrue();
+        }
+
+        [Fact]
+        public void PropertyNullableUnion2()
+        {
+            var tsd = """
+  name: string | undefined;
 """;
             var output = TSDParser.Property.Parse(tsd);
 
