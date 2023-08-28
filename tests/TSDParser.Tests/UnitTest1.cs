@@ -19,6 +19,36 @@ export interface SomeType {
         }
 
         [Fact]
+        public void InterfaceExtends()
+        {
+            var tsd = """
+export interface SomeType extends One, Two, Three {
+}
+""";
+            var output = TSDParser.Interface.Parse(tsd);
+
+            output.Name.Should().Be("SomeType");
+            output.Extends[0].Should().Be("One");
+            output.Extends[1].Should().Be("Two");
+            output.Extends[2].Should().Be("Three");
+        }
+
+        [Fact]
+        public void InterfaceExtendsNoSpace()
+        {
+            var tsd = """
+export interface SomeType extends One,Two,Three {
+}
+""";
+            var output = TSDParser.Interface.Parse(tsd);
+
+            output.Name.Should().Be("SomeType");
+            output.Extends[0].Should().Be("One");
+            output.Extends[1].Should().Be("Two");
+            output.Extends[2].Should().Be("Three");
+        }
+
+        [Fact]
         public void InterfaceProperty()
         {
             var tsd = """

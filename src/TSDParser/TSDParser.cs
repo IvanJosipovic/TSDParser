@@ -4,7 +4,7 @@ namespace TSDParser
 {
     public static class TSDParser
     {
-        public static Parser<string> Name = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit);
+        public static Parser<string> Name = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Except(Parse.WhiteSpace);
 
         public static Parser<string> TypeName = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit);
 
@@ -23,8 +23,12 @@ namespace TSDParser
 
         public static Parser<Interface> Interface =
             from comment in ParseComment().Optional()
-            from _ in Parse.String("export interface").Text().Token()
+            from _ in Parse.String("export interface").Token()
             from name in Name.Token()
+
+            from extends_token in Parse.String("extends").Token().Optional()
+            from extends in Name.Token().DelimitedBy(Parse.Char(',').Token()).Optional()
+
             from openBrace in Parse.Char('{').Token()
             from functions in Function.Many().Optional()
             from properties in Property.Many().Optional()
@@ -33,14 +37,18 @@ namespace TSDParser
             {
                 CommentText = comment.GetOrDefault(),
                 Name = name,
-                Functions = functions.GetOrDefault().ToList(),
-                Properties = properties.GetOrDefault()?.ToList()
+                Functions = functions.GetOrDefault()?.ToList(),
+                Properties = properties.GetOrDefault()?.ToList(),
+                Extends = extends.GetOrDefault()?.ToList()
             };
 
         public static Parser<Function> Function =
             from comment in ParseComment().Optional()
             from name in Name.Token()
-            from colon in Parse.String("():").Text().Token()
+            from colon in Parse.String(":").Token().Optional()
+            from brackets in Parse.String("()").Token()
+            from arrow in Parse.String("=>").Token().Optional()
+            from colon2 in Parse.String(":").Token().Optional()
             from type in TypeName.Token()
             from semicolon in Parse.Char(';').Token()
             select new Function
@@ -85,8 +93,8 @@ namespace TSDParser
     public class Interface : Comment
     {
         public string Name { get; set; }
+        public List<string> Extends { get; set; }
         public List<Function> Functions { get; set; }
-
         public List<Property> Properties { get; set; }
     }
 
