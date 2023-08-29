@@ -10,9 +10,9 @@ This project is a C# TypeScript Definition Parser.
 
 Features:
 
-- Import and parse of Type Script Definitions
+- Import and parse of TypeScript Definitions
 - Supports:
   - Interfaces
-  - Functions
+  - Methods
   - Properties
   - Types
