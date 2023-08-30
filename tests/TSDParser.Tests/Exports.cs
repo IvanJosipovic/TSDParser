@@ -12,6 +12,7 @@ namespace TSDParser.Tests
             output.Kind.Should().Be(SyntaxKind.ExportDeclaration);
 
             output.ExportClause.Should().BeOfType<NamedExports>();
+            output.ExportClause.As<NamedExports>().Kind.Should().Be(SyntaxKind.NamedExports);
             output.ExportClause.As<NamedExports>().Elements[0].Should().BeOfType<ExportSpecifier>();
             output.ExportClause.As<NamedExports>().Elements[0].Kind.Should().Be(SyntaxKind.ExportSpecifier);
             output.ExportClause.As<NamedExports>().Elements[0].As<ExportSpecifier>().Name.Text.Should().Be("Class1");
