@@ -11,6 +11,8 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<BooleanKeyword>();
+        output.As<BooleanKeyword>().Kind.Should().Be(SyntaxKind.BooleanKeyword);
+
     }
 
     [Fact]
@@ -56,7 +58,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeReference>();
-        output.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.As<TypeReference>().Kind.Should().Be(SyntaxKind.TypeReference);
     }
 
     [Fact]
@@ -85,6 +87,7 @@ public class Types
 
         output.Should().BeOfType<ArrayType>();
         output.As<ArrayType>().ElementType.Should().BeOfType<StringKeyword>();
+        output.As<ArrayType>().Kind.Should().Be(SyntaxKind.ArrayType);
     }
 
     [Fact]

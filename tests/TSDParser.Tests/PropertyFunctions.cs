@@ -12,7 +12,9 @@ public class PropertyFunctions
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
+        output.Kind.Should().Be(SyntaxKind.PropertySignature);
         output.Type.As<FunctionType>().Type.Should().BeOfType<VoidKeyword>();
+        output.Type.As<FunctionType>().Kind.Should().Be(SyntaxKind.FunctionType);
     }
 
     [Fact]
