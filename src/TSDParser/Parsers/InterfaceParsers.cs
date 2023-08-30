@@ -4,8 +4,9 @@
     {
         /// <summary>
         /// export interface SomeType {}
-        /// </summary>
-        public static Parser<InterfaceDeclaration> InterfaceDeclaration =
+        /// export interface SomeType extends One, Two, Three {}
+    /// </summary>
+    public static Parser<InterfaceDeclaration> InterfaceDeclaration =
             from comment in CommonParsers.Comment().Optional()
             from _ in Parse.String("export interface").Token()
             from name in CommonParsers.Name.Token()
@@ -26,7 +27,15 @@
                     Comment = comment.GetOrDefault(),
                     Text = name
                 },
-                Statements = new List<Node>(statements.GetOrDefault())
+                Statements = new List<Node>(statements.GetOrDefault()),
+                HeritageClauses = extends.IsDefined ? new List<HeritageClause>()
+                {
+                    new HeritageClause()
+                    {
+                        Types = extends.Get().Select(x => new ExpressionWithTypeArguments(){ Expression = new Identifier { Text = x } }).ToList()
+                    }
+                } : null
+
             };
     }
 }

@@ -14,35 +14,35 @@ public class Interfaces
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
     }
 
-    //        [Fact]
-    //        public void InterfaceExtends()
-    //        {
-    //            var tsd = """
-    //export interface SomeType extends One, Two, Three {
-    //}
-    //""";
-    //            var output = InterfaceParsers.Interface.Parse(tsd);
+    [Fact]
+    public void InterfaceExtends()
+    {
+        var tsd = """
+            export interface SomeType extends One, Two, Three {
+            }
+            """;
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
-    //            output.Name.Should().Be("SomeType");
-    //            output.Extends[0].Should().Be("One");
-    //            output.Extends[1].Should().Be("Two");
-    //            output.Extends[2].Should().Be("Three");
-    //        }
+        output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("One");
+        output.HeritageClauses[0].Types[1].Expression.Text.Should().Be("Two");
+        output.HeritageClauses[0].Types[2].Expression.Text.Should().Be("Three");
+    }
 
-    //        [Fact]
-    //        public void InterfaceExtendsNoSpace()
-    //        {
-    //            var tsd = """
-    //export interface SomeType extends One,Two,Three {
-    //}
-    //""";
-    //            var output = InterfaceParsers.Interface.Parse(tsd);
+    [Fact]
+    public void InterfaceExtendsNoSpace()
+    {
+        var tsd = """
+            export interface SomeType extends One,Two,Three {
+            }
+            """;
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
-    //            output.Name.Should().Be("SomeType");
-    //            output.Extends[0].Should().Be("One");
-    //            output.Extends[1].Should().Be("Two");
-    //            output.Extends[2].Should().Be("Three");
-    //        }
+        output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("One");
+        output.HeritageClauses[0].Types[1].Expression.Text.Should().Be("Two");
+        output.HeritageClauses[0].Types[2].Expression.Text.Should().Be("Three");
+    }
 
     [Fact]
     public void Property()

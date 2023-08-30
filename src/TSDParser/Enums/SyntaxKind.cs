@@ -21,6 +21,7 @@
         FunctionType = 184,
         TypeLiteral = 187,
         ArrayType = 188,
+        ExpressionWithTypeArguments = 233,
         ClassDeclaration = 263,
         InterfaceDeclaration = 264,
         ImportDeclaration = 272,
