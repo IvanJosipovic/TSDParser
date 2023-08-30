@@ -85,6 +85,7 @@ public class Properties
 
         output.Name.Text.Should().Be("name");
         output.QuestionToken.Should().NotBeNull();
+        output.QuestionToken.Kind.Should().Be(SyntaxKind.QuestionToken);
         output.Type.Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
     }

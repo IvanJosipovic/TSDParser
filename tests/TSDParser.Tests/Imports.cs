@@ -48,6 +48,7 @@ namespace TSDParser.Tests
             output.ImportClause.Should().BeOfType<ImportClause>();
 
             output.ImportClause.As<ImportClause>().NamedBindings[0].Should().BeOfType<NamespaceImport>();
+            output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamespaceImport>().Kind.Should().Be(SyntaxKind.NamespaceImport);
             output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamespaceImport>().Name.Text.Should().Be("test");
 
             output.ModuleSpecifier.Text.Should().Be("@org/package");

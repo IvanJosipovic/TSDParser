@@ -68,6 +68,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<VoidKeyword>();
+        output.Kind.Should().Be(SyntaxKind.VoidKeyword);
     }
 
     [Fact]
@@ -77,6 +78,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<StringKeyword>();
+        output.Kind.Should().Be(SyntaxKind.StringKeyword);
     }
 
     [Fact]
@@ -97,6 +99,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeLiteral>();
+        output.Kind.Should().Be(SyntaxKind.TypeLiteral);
         output.As<TypeLiteral>().Members[0].Should().BeOfType<IndexSignature>();
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Kind.Should().Be(SyntaxKind.IndexSignature);
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Type.Should().BeOfType<NumberKeyword>();

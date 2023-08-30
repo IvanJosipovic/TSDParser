@@ -59,6 +59,7 @@ public class Methods
         output.Type.Should().BeOfType<VoidKeyword>();
 
         output.Parameters[0].Should().BeOfType<Parameter>();
+        output.Parameters[0].Kind.Should().Be(SyntaxKind.Parameter);
         output.Parameters[0].Name.Text.Should().Be("param");
         output.Parameters[0].Type.Should().BeOfType<StringKeyword>();
     }
