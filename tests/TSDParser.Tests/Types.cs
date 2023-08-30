@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class Types
@@ -6,7 +8,7 @@ public class Types
     public void Boolean()
     {
         var tsd = """boolean""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<BooleanKeyword>();
     }
@@ -15,7 +17,7 @@ public class Types
     public void Number()
     {
         var tsd = """number""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<NumberKeyword>();
     }
@@ -24,7 +26,7 @@ public class Types
     public void Any()
     {
         var tsd = """any""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<AnyKeyword>();
     }
@@ -33,7 +35,7 @@ public class Types
     public void Null()
     {
         var tsd = """null""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<NullKeyword>();
     }
@@ -42,7 +44,7 @@ public class Types
     public void Undefined()
     {
         var tsd = """undefined""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<UndefinedKeyword>();
     }
@@ -51,7 +53,7 @@ public class Types
     public void Class()
     {
         var tsd = """SomeClass""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeReference>();
         output.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
@@ -61,7 +63,7 @@ public class Types
     public void Void()
     {
         var tsd = """void""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<VoidKeyword>();
     }
@@ -70,7 +72,7 @@ public class Types
     public void String()
     {
         var tsd = """string""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<StringKeyword>();
     }
@@ -79,7 +81,7 @@ public class Types
     public void Array()
     {
         var tsd = """string[]""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<ArrayType>();
         output.As<ArrayType>().ElementType.Should().BeOfType<StringKeyword>();
@@ -89,7 +91,7 @@ public class Types
     public void KeyValuePair()
     {
         var tsd = """{ [key: string]: number; }""";
-        var output = TSDParser.Type.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeLiteral>();
         output.As<TypeLiteral>().Members[0].Should().BeOfType<IndexSignature>();

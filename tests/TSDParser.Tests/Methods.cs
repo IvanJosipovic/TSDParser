@@ -1,4 +1,6 @@
-namespace TSDParser.Tests;
+using TSDParser.Parsers;
+
+namespace TDSParser.Tests;
 
 public class Methods
 {
@@ -6,7 +8,7 @@ public class Methods
     public void Void()
     {
         var tsd = """myFunc(): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -16,7 +18,7 @@ public class Methods
     public void VoidNoSpace()
     {
         var tsd = """myFunc():void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -26,7 +28,7 @@ public class Methods
     public void VoidNoSemiColon()
     {
         var tsd = """myFunc(): void""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -39,7 +41,7 @@ public class Methods
             /* myComment */
             myFunc(): void;
             """;
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Name.Comment.Should().Be("myComment");
@@ -50,7 +52,7 @@ public class Methods
     public void Parameter()
     {
         var tsd = """myFunc(param: string): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -64,7 +66,7 @@ public class Methods
     public void MultiParameter()
     {
         var tsd = """myFunc(param: string, param2: number): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -82,7 +84,7 @@ public class Methods
     public void Nullable()
     {
         var tsd = """myFunc(param?: string): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -97,7 +99,7 @@ public class Methods
     public void ParameterFunction()
     {
         var tsd = """myFunc(callBack: () => void): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -112,7 +114,7 @@ public class Methods
     public void ParameterFunctionParameters()
     {
         var tsd = """myFunc(callback: (param: string) => void): void;""";
-        var output = TSDParser.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();

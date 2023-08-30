@@ -1,4 +1,6 @@
-﻿namespace TSDParser.Tests
+﻿using TSDParser.Parsers;
+
+namespace TSDParser.Tests
 {
     public class Exports
     {
@@ -6,7 +8,7 @@
         public void Single()
         {
             var tsd = """export { Class1 }""";
-            var output = TSDParser.ExportDeclaration.Parse(tsd);
+            var output = ExportParsers.ExportDeclaration.Parse(tsd);
 
             output.ExportClause.Should().BeOfType<NamedExports>();
             output.ExportClause.As<NamedExports>().Elements[0].Should().BeOfType<ExportSpecifier>();
@@ -17,7 +19,7 @@
         public void Multiple()
         {
             var tsd = """export { Class1, Class2 }""";
-            var output = TSDParser.ExportDeclaration.Parse(tsd);
+            var output = ExportParsers.ExportDeclaration.Parse(tsd);
 
             output.ExportClause.Should().BeOfType<NamedExports>();
             output.ExportClause.As<NamedExports>().Elements[0].Should().BeOfType<ExportSpecifier>();
@@ -30,20 +32,19 @@
         public void Named()
         {
             var tsd = """export { Class1 as Class2 }""";
-            var output = TSDParser.ExportDeclaration.Parse(tsd);
+            var output = ExportParsers.ExportDeclaration.Parse(tsd);
 
             output.ExportClause.Should().BeOfType<NamedExports>();
             output.ExportClause.As<NamedExports>().Elements[0].Should().BeOfType<ExportSpecifier>();
             output.ExportClause.As<NamedExports>().Elements[0].As<ExportSpecifier>().Name.Text.Should().Be("Class2");
             output.ExportClause.As<NamedExports>().Elements[0].As<ExportSpecifier>().PropertyName.Text.Should().Be("Class1");
-
         }
 
         [Fact]
         public void NamedMultiple()
         {
             var tsd = """export { Class1 as Class2, Class3 as Class4 }""";
-            var output = TSDParser.ExportDeclaration.Parse(tsd);
+            var output = ExportParsers.ExportDeclaration.Parse(tsd);
 
             output.ExportClause.Should().BeOfType<NamedExports>();
             output.ExportClause.As<NamedExports>().Elements[0].Should().BeOfType<ExportSpecifier>();

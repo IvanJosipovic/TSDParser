@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class Properties
@@ -6,7 +8,7 @@ public class Properties
     public void String()
     {
         var tsd = """name: string;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -16,7 +18,7 @@ public class Properties
     public void StringNoSemiColen()
     {
         var tsd = """name: string""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -26,7 +28,7 @@ public class Properties
     public void Void()
     {
         var tsd = """name: void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -36,7 +38,7 @@ public class Properties
     public void NoSpace()
     {
         var tsd = """name:string;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -46,7 +48,7 @@ public class Properties
     public void Array()
     {
         var tsd = """name: string[];""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<ArrayType>();
@@ -57,7 +59,7 @@ public class Properties
     public void KeyValuePair()
     {
         var tsd = """name: { [key: string]: number; };""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<TypeLiteral>();
@@ -70,7 +72,7 @@ public class Properties
             /* Property Comment */
             name: string;
             """;
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Comment.Should().Be("Property Comment");
     }
@@ -79,7 +81,7 @@ public class Properties
     public void Nullable()
     {
         var tsd = """name?: SomeClass;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.QuestionToken.Should().NotBeNull();
@@ -91,7 +93,7 @@ public class Properties
     public void Readonly()
     {
         var tsd = """readonly name: SomeClass;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<TypeReference>();

@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class PropertyFunctions
@@ -6,7 +8,7 @@ public class PropertyFunctions
     public void Void()
     {
         var tsd = """name: () => void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -17,7 +19,7 @@ public class PropertyFunctions
     public void VoidNoSpace()
     {
         var tsd = """name:()=>void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -28,7 +30,7 @@ public class PropertyFunctions
     public void Parameter()
     {
         var tsd = """name: (param: string) => void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -41,7 +43,7 @@ public class PropertyFunctions
     public void MultiParameter()
     {
         var tsd = """name: (param: string, param2: number) => void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -56,7 +58,7 @@ public class PropertyFunctions
     public void Nullable()
     {
         var tsd = """name: (param?: string) => void;""";
-        var output = TSDParser.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertySignature.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();

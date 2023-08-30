@@ -1,4 +1,6 @@
-﻿namespace TSDParser.Tests
+﻿using TSDParser.Parsers;
+
+namespace TSDParser.Tests
 {
     public class SourceFiles
     {
@@ -6,7 +8,7 @@
         public void Plain()
         {
             var tsd = """export interface SomeType {}""";
-            var output = TSDParser.SourceFile.Parse(tsd);
+            var output = SourceFileParsers.SourceFile.Parse(tsd);
 
             output.Should().BeOfType<SourceFile>();
             output.Statements[0].Should().BeOfType<InterfaceDeclaration>();
@@ -19,7 +21,7 @@
                 export interface SomeType {}
                 export interface SomeType2 {}
                 """;
-            var output = TSDParser.SourceFile.Parse(tsd);
+            var output = SourceFileParsers.SourceFile.Parse(tsd);
 
             output.Should().BeOfType<SourceFile>();
             output.Statements[0].Should().BeOfType<InterfaceDeclaration>();
@@ -37,7 +39,7 @@
                   myMethod(): string;
                 }
                 """;
-            var output = TSDParser.SourceFile.Parse(tsd);
+            var output = SourceFileParsers.SourceFile.Parse(tsd);
 
             output.Should().BeOfType<SourceFile>();
 

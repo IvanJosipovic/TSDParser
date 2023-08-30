@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class Comments
@@ -8,7 +10,7 @@ public class Comments
         var tsd = """
                 /* Comment */
                 """;
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("Comment");
     }
@@ -19,7 +21,7 @@ public class Comments
         var tsd = """
                 /*Comment*/
                 """;
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("Comment");
     }
@@ -33,7 +35,7 @@ public class Comments
                  Comment2
                 */
                 """;
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("Comment\r\nComment2");
     }
@@ -46,7 +48,7 @@ public class Comments
                 * comment
                 */
                 """;
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("comment");
     }
@@ -55,7 +57,7 @@ public class Comments
     public void SingleLineTilda()
     {
         var tsd = """/*~ comment */""";
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("comment");
     }
@@ -69,7 +71,7 @@ public class Comments
                 *~ Comment3
                 */
                 """;
-        var output = TSDParser.ParseComment().Parse(tsd);
+        var output = CommonParsers.Comment().Parse(tsd);
 
         output.Should().Be("Comment1\r\nComment2\r\nComment3");
     }

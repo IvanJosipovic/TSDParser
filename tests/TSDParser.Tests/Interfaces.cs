@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class Interfaces
@@ -6,7 +8,7 @@ public class Interfaces
     public void Empty()
     {
         var tsd = """export interface SomeType {}""";
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
@@ -19,7 +21,7 @@ public class Interfaces
     //export interface SomeType extends One, Two, Three {
     //}
     //""";
-    //            var output = TSDParser.Interface.Parse(tsd);
+    //            var output = InterfaceParsers.Interface.Parse(tsd);
 
     //            output.Name.Should().Be("SomeType");
     //            output.Extends[0].Should().Be("One");
@@ -34,7 +36,7 @@ public class Interfaces
     //export interface SomeType extends One,Two,Three {
     //}
     //""";
-    //            var output = TSDParser.Interface.Parse(tsd);
+    //            var output = InterfaceParsers.Interface.Parse(tsd);
 
     //            output.Name.Should().Be("SomeType");
     //            output.Extends[0].Should().Be("One");
@@ -50,7 +52,7 @@ public class Interfaces
                 name: string;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -67,7 +69,7 @@ public class Interfaces
                 name2: string;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -86,7 +88,7 @@ public class Interfaces
                 myfunc: () => void;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -103,7 +105,7 @@ public class Interfaces
                 myfunc2: (name: string) => void;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -122,7 +124,7 @@ public class Interfaces
             export interface SomeType {
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
         output.Name.Comment.Should().Be("Interface Comment");
@@ -136,7 +138,7 @@ public class Interfaces
               myfunc(): void;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -154,7 +156,7 @@ public class Interfaces
               myfunc2(): void;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 
@@ -178,7 +180,7 @@ public class Interfaces
               myfunc1(): void;
             }
             """;
-        var output = TSDParser.InterfaceDeclaration.Parse(tsd);
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
 

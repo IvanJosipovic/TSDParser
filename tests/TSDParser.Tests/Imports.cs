@@ -1,4 +1,6 @@
-﻿namespace TSDParser.Tests
+﻿using TSDParser.Parsers;
+
+namespace TSDParser.Tests
 {
     public class Imports
     {
@@ -6,7 +8,7 @@
         public void Import()
         {
             var tsd = """import { MyClass } from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -21,7 +23,7 @@
         public void Symbols()
         {
             var tsd = """import { _MyClass } from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -36,7 +38,7 @@
         public void WildCard()
         {
             var tsd = """import * as test from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -50,7 +52,7 @@
         public void Quotes()
         {
             var tsd = """import { MyClass } from "@org/package";""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -67,7 +69,7 @@
             var tsd = """
                 import { MyClass } from "@org/package"
                 """;
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -82,7 +84,7 @@
         public void MultiImport()
         {
             var tsd = """import { MyClass, MyClass2 } from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -99,7 +101,7 @@
         public void As()
         {
             var tsd = """import { MyClass as NewClass } from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 
@@ -115,7 +117,7 @@
         public void MultiAs()
         {
             var tsd = """import { MyClass as NewClass, MyClass2 as NewClass2 } from '@org/package';""";
-            var output = TSDParser.ImportDeclaration.Parse(tsd);
+            var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
 

@@ -1,3 +1,5 @@
+using TSDParser.Parsers;
+
 namespace TSDParser.Tests;
 
 public class Parameters
@@ -6,7 +8,7 @@ public class Parameters
     public void String()
     {
         var tsd = """name: string""";
-        var output = TSDParser.Parameter.Parse(tsd);
+        var output = CommonParsers.Parameter.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -16,7 +18,7 @@ public class Parameters
     public void Function()
     {
         var tsd = """callback: () => void""";
-        var output = TSDParser.Parameter.Parse(tsd);
+        var output = CommonParsers.Parameter.Parse(tsd);
 
         output.Name.Text.Should().Be("callback");
         output.Type.Should().BeOfType<FunctionType>();
@@ -27,7 +29,7 @@ public class Parameters
     public void FunctionParam()
     {
         var tsd = """callback: (param: string) => void""";
-        var output = TSDParser.Parameter.Parse(tsd);
+        var output = CommonParsers.Parameter.Parse(tsd);
 
         output.Name.Text.Should().Be("callback");
         output.Type.Should().BeOfType<FunctionType>();
@@ -43,7 +45,7 @@ public class Parameters
     public void FunctionMultiParam()
     {
         var tsd = """callback: (param: string, param2: number) => void""";
-        var output = TSDParser.Parameter.Parse(tsd);
+        var output = CommonParsers.Parameter.Parse(tsd);
 
         output.Name.Text.Should().Be("callback");
 

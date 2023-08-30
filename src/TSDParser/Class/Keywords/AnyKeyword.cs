@@ -1,5 +1,4 @@
 ﻿using TSDParser.Enums;
-using TSDParser.Interfaces;
 
 namespace TSDParser.Class.Keywords
 {
