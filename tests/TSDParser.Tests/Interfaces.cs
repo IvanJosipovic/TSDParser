@@ -11,7 +11,7 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Name.Kind.Should().Be(SyntaxKind.ImportSpecifier);
+        output.Name.Kind.Should().Be(SyntaxKind.Identifier);
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
     }
 

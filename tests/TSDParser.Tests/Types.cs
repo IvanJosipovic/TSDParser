@@ -98,6 +98,7 @@ public class Types
 
         output.Should().BeOfType<TypeLiteral>();
         output.As<TypeLiteral>().Members[0].Should().BeOfType<IndexSignature>();
+        output.As<TypeLiteral>().Members[0].As<IndexSignature>().Kind.Should().Be(SyntaxKind.IndexSignature);
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Type.Should().BeOfType<NumberKeyword>();
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Parameters[0].Should().BeOfType<Parameter>();
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Parameters[0].As<Parameter>().Name.Text.Should().Be("key");
