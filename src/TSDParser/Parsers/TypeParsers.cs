@@ -2,6 +2,23 @@
 {
     internal class TypeParsers
     {
+        /// <summary>
+        /// One<Two,Three>
+        /// </summary>
+        public static Parser<TypeReference> Generic =
+            from name in CommonParsers.Name
+            from open_angle_bracket in Parse.Char('<').Token()
+            from types in Type.DelimitedBy(Parse.Char(','))
+            from close_angle_bracket in Parse.Char('>').Token()
+            select new TypeReference()
+            {
+                TypeName = new Identifier() { Text = name },
+                TypeArguments = types.ToList()
+            };
+
+        /// <summary>
+        /// string[]
+        /// </summary>
         public static Parser<Node> ArrayType =
             from name in CommonParsers.Name
             from array in Parse.String("[]")
@@ -56,7 +73,8 @@
                                             .Or(Parse.String("string").Select(x => new StringKeyword()))
                                             .Or(Parse.String("any").Select(x => new AnyKeyword()))
                                             .Or(Parse.String("boolean").Select(x => new BooleanKeyword()))
-        .Or(KeyValuePair)
+                                            .Or(KeyValuePair)
+                                            .Or(Generic)
                                             .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
     }
 }

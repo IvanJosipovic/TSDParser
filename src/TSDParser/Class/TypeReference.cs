@@ -7,5 +7,7 @@ namespace TSDParser.Class
         public SyntaxKind Kind => SyntaxKind.TypeReference;
 
         public Identifier TypeName { get; set; }
+
+        public List<Node> TypeArguments { get; set; }
     }
 }

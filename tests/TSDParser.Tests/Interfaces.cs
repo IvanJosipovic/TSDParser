@@ -7,7 +7,7 @@ public class Interfaces
     [Fact]
     public void Empty()
     {
-        var tsd = """export interface SomeType {}""";
+        var tsd = """interface SomeType {}""";
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
@@ -15,11 +15,44 @@ public class Interfaces
     }
 
     [Fact]
+    public void Export()
+    {
+        var tsd = """export interface SomeType {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
+        output.Modifiers[0].Should().BeOfType<ExportKeyword>();
+    }
+
+    [Fact]
+    public void Declare()
+    {
+        var tsd = """declare interface SomeType {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
+        output.Modifiers[0].Should().BeOfType<DeclareKeyword>();
+    }
+
+    [Fact]
+    public void ExportDeclare()
+    {
+        var tsd = """export declare interface SomeType {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
+        output.Modifiers[0].Should().BeOfType<ExportKeyword>();
+        output.Modifiers[1].Should().BeOfType<DeclareKeyword>();
+    }
+
+    [Fact]
     public void InterfaceExtends()
     {
         var tsd = """
-            export interface SomeType extends One, Two, Three {
-            }
+            export interface SomeType extends One, Two, Three {}
             """;
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
@@ -33,8 +66,7 @@ public class Interfaces
     public void InterfaceExtendsNoSpace()
     {
         var tsd = """
-            export interface SomeType extends One,Two,Three {
-            }
+            export interface SomeType extends One,Two,Three {}
             """;
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 

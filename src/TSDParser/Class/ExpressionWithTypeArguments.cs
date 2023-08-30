@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TSDParser.Enums;
+﻿using TSDParser.Enums;
 
 namespace TSDParser.Class
 {

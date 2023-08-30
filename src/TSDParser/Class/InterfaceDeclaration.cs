@@ -11,5 +11,7 @@ namespace TSDParser.Class
         public List<Node> Statements { get; set; }
 
         public List<HeritageClause> HeritageClauses { get; set; }
+
+        public List<Node> Modifiers { get; set; }
     }
 }

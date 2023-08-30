@@ -101,6 +101,43 @@ public class Types
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Parameters[0].As<Parameter>().Type.Should().BeOfType<StringKeyword>();
     }
 
+    [Fact]
+    public void Generic()
+    {
+        var tsd = """One<Two>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("One");
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("Two");
+    }
+
+    [Fact]
+    public void GenericKeyword()
+    {
+        var tsd = """One<number>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("One");
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<NumberKeyword>();
+    }
+
+    [Fact]
+    public void GenericMultiple()
+    {
+        var tsd = """One<Two,Three>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("One");
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("Two");
+        output.As<TypeReference>().TypeArguments[1].Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("Three");
+    }
+
     //        [Fact]
     //        public void Union()
     //        {
