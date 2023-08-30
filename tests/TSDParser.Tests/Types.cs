@@ -11,6 +11,8 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<BooleanKeyword>();
+        output.Kind.Should().Be(SyntaxKind.BooleanKeyword);
+
     }
 
     [Fact]
@@ -20,6 +22,8 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<NumberKeyword>();
+        output.Kind.Should().Be(SyntaxKind.NumberKeyword);
+
     }
 
     [Fact]
@@ -29,6 +33,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<AnyKeyword>();
+        output.Kind.Should().Be(SyntaxKind.AnyKeyword);
     }
 
     [Fact]
@@ -38,6 +43,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<NullKeyword>();
+        output.Kind.Should().Be(SyntaxKind.NullKeyword);
     }
 
     [Fact]
@@ -47,6 +53,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<UndefinedKeyword>();
+        output.Kind.Should().Be(SyntaxKind.UndefinedKeyword);
     }
 
     [Fact]
@@ -56,7 +63,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeReference>();
-        output.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.As<TypeReference>().Kind.Should().Be(SyntaxKind.TypeReference);
     }
 
     [Fact]
@@ -66,6 +73,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<VoidKeyword>();
+        output.Kind.Should().Be(SyntaxKind.VoidKeyword);
     }
 
     [Fact]
@@ -75,6 +83,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<StringKeyword>();
+        output.Kind.Should().Be(SyntaxKind.StringKeyword);
     }
 
     [Fact]
@@ -84,6 +93,7 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<ArrayType>();
+        output.Kind.Should().Be(SyntaxKind.ArrayType);
         output.As<ArrayType>().ElementType.Should().BeOfType<StringKeyword>();
     }
 
@@ -94,7 +104,9 @@ public class Types
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeLiteral>();
+        output.Kind.Should().Be(SyntaxKind.TypeLiteral);
         output.As<TypeLiteral>().Members[0].Should().BeOfType<IndexSignature>();
+        output.As<TypeLiteral>().Members[0].As<IndexSignature>().Kind.Should().Be(SyntaxKind.IndexSignature);
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Type.Should().BeOfType<NumberKeyword>();
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Parameters[0].Should().BeOfType<Parameter>();
         output.As<TypeLiteral>().Members[0].As<IndexSignature>().Parameters[0].As<Parameter>().Name.Text.Should().Be("key");

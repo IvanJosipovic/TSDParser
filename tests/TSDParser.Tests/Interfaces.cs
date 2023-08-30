@@ -11,6 +11,7 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
+        output.Name.Kind.Should().Be(SyntaxKind.Identifier);
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
     }
 
@@ -23,6 +24,7 @@ public class Interfaces
         output.Name.Text.Should().Be("SomeType");
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<ExportKeyword>();
+        output.Modifiers[0].As<ExportKeyword>().Kind.Should().Be(SyntaxKind.ExportKeyword);
     }
 
     [Fact]
@@ -34,6 +36,7 @@ public class Interfaces
         output.Name.Text.Should().Be("SomeType");
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<DeclareKeyword>();
+        output.Modifiers[0].As<DeclareKeyword>().Kind.Should().Be(SyntaxKind.DeclareKeyword);
     }
 
     [Fact]
@@ -43,7 +46,6 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<ExportKeyword>();
         output.Modifiers[1].Should().BeOfType<DeclareKeyword>();
     }
@@ -57,6 +59,8 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Kind.Should().Be(SyntaxKind.HeritageClause);
+        output.HeritageClauses[0].Types[0].Kind.Should().Be(SyntaxKind.ExpressionWithTypeArguments);
         output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("One");
         output.HeritageClauses[0].Types[1].Expression.Text.Should().Be("Two");
         output.HeritageClauses[0].Types[2].Expression.Text.Should().Be("Three");

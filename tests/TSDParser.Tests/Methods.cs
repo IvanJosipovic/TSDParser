@@ -10,6 +10,7 @@ public class Methods
         var tsd = """myFunc(): void;""";
         var output = MethodParsers.MethodSignature.Parse(tsd);
 
+        output.Kind.Should().Be(SyntaxKind.MethodSignature);
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
     }
@@ -58,6 +59,7 @@ public class Methods
         output.Type.Should().BeOfType<VoidKeyword>();
 
         output.Parameters[0].Should().BeOfType<Parameter>();
+        output.Parameters[0].Kind.Should().Be(SyntaxKind.Parameter);
         output.Parameters[0].Name.Text.Should().Be("param");
         output.Parameters[0].Type.Should().BeOfType<StringKeyword>();
     }

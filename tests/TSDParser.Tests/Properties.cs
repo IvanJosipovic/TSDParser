@@ -85,6 +85,7 @@ public class Properties
 
         output.Name.Text.Should().Be("name");
         output.QuestionToken.Should().NotBeNull();
+        output.QuestionToken.Kind.Should().Be(SyntaxKind.QuestionToken);
         output.Type.Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
     }
@@ -98,6 +99,7 @@ public class Properties
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
-        output.Modifiers.Should().ContainSingle(x => x is ReadonlyKeyword);
+        output.Modifiers[0].Should().BeOfType<ReadonlyKeyword>();
+        output.Modifiers[0].As<ReadonlyKeyword>().Kind.Should().Be(SyntaxKind.ReadonlyKeyword);
     }
 }
