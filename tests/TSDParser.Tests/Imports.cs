@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSDParser.Tests
+﻿namespace TSDParser.Tests
 {
     public class Imports
     {
@@ -34,6 +28,20 @@ namespace TSDParser.Tests
             output.ImportClause.As<ImportClause>().NamedBindings[0].Should().BeOfType<NamedImports>();
             output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].Should().BeOfType<ImportSpecifier>();
             output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].As<ImportSpecifier>().Name.Text.Should().Be("_MyClass");
+
+            output.ModuleSpecifier.Text.Should().Be("@org/package");
+        }
+
+        [Fact]
+        public void WildCard()
+        {
+            var tsd = """import * as test from '@org/package';""";
+            var output = TSDParser.ImportDeclaration.Parse(tsd);
+
+            output.ImportClause.Should().BeOfType<ImportClause>();
+
+            output.ImportClause.As<ImportClause>().NamedBindings[0].Should().BeOfType<NamespaceImport>();
+            output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamespaceImport>().Name.Text.Should().Be("test");
 
             output.ModuleSpecifier.Text.Should().Be("@org/package");
         }

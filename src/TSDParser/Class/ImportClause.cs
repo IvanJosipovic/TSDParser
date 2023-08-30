@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TSDParser.Enums;
+﻿using TSDParser.Enums;
 using TSDParser.Interfaces;
 
 namespace TSDParser.Class
@@ -10,7 +7,6 @@ namespace TSDParser.Class
     {
         public SyntaxKind Kind => SyntaxKind.ImportClause;
 
-        public List<NamedImports> NamedBindings { get; set; }
-
+        public List<Node> NamedBindings { get; set; }
     }
 }

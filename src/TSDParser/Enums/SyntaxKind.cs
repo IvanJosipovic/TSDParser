@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TSDParser.Enums
+﻿namespace TSDParser.Enums
 {
     public enum SyntaxKind
     {
@@ -29,8 +25,12 @@ namespace TSDParser.Enums
         InterfaceDeclaration = 264,
         ImportDeclaration = 272,
         ImportClause = 273,
+        NamespaceImport = 274,
         NamedImports = 275,
         ImportSpecifier = 276,
+        ExportDeclaration = 278,
+        NamedExports = 279,
+        ExportSpecifier = 281,
         HeritageClause = 298,
         SourceFile = 312,
     }

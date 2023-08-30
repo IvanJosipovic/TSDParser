@@ -1,5 +1,4 @@
 ﻿using Sprache;
-using System.Linq;
 using TSDParser.Class;
 using TSDParser.Class.Keywords;
 using TSDParser.Interfaces;
@@ -35,17 +34,46 @@ namespace TSDParser
                 PropertyName = propertyName.IsDefined ? new Identifier() { Text = className } : null
             };
 
+        public static Parser<ExportSpecifier> ExportSpecifier =
+            from name in Name
+            from keyword in Parse.String("as").Token().Optional()
+            from propertyName in Name.Optional()
+            select new ExportSpecifier()
+            {
+                Name = propertyName.IsDefined ? new Identifier() { Text = propertyName.Get() } : new Identifier() { Text = name },
+                PropertyName = propertyName.IsDefined ? new Identifier() { Text = name } : null
+            };
+
+        /// <summary>
+        /// export { Class1 }
+        /// export { Class1, Class2 }
+        /// export { Class1 as Class2 }
+        /// export { Class1 as Class2, Class3 as Class4 }
+        /// </summary>
+        public static Parser<ExportDeclaration> ExportDeclaration =
+            from keyword in Parse.String("export").Token()
+            from open_bracket in Parse.Char('{').Token()
+            from exportSpecifiers in ExportSpecifier.DelimitedBy(Parse.Char(',').Token())
+            from close_bracket in Parse.Char('}').Token()
+            select new ExportDeclaration()
+            {
+                ExportClause = new NamedExports()
+                {
+                    Elements = new List<ExportSpecifier>(exportSpecifiers)
+                }
+            };
+
         /// <summary>
         /// import { MyClass } from '@org/package';
         /// import { MyClass, MyClass2 } from '@org/package';
         /// import { MyClass as NewClass } from '@org/package';
         /// import { MyClass as NewClass, MyClass2 as NewClass2 } from '@org/package';
         /// </summary>
-        public static Parser<ImportDeclaration> ImportDeclaration =
+        public static Parser<ImportDeclaration> NamedImports =
             from keyword in Parse.String("import").Token()
 
             from open_bracket in Parse.Char('{').Token()
-            from importSpecifiers in ImportSpecifier.DelimitedBy(Parse.Char(','))
+            from importSpecifiers in ImportSpecifier.DelimitedBy(Parse.Char(',').Token())
             from close_bracket in Parse.Char('}').Token()
 
             from keyword2 in Parse.String("from").Token()
@@ -58,7 +86,7 @@ namespace TSDParser
             {
                 ImportClause = new ImportClause()
                 {
-                    NamedBindings = new List<NamedImports>()
+                    NamedBindings = new List<Node>()
                     {
                         new NamedImports()
                         {
@@ -71,6 +99,38 @@ namespace TSDParser
                     Text = package
                 }
             };
+
+        /// <summary>
+        /// import * as test from '@org/package';
+        /// </summary>
+        public static Parser<ImportDeclaration> NamespaceImport =
+            from keyword in Parse.String("import").Token()
+            from keyword2 in Parse.Char('*').Token()
+            from keyword3 in Parse.String("as").Token()
+            from name in Name.Token()
+            from keyword4 in Parse.String("from").Token()
+
+            from package in Parse.AnyChar.Except(Parse.Chars("\'\"")).Many().Text().Token().Contained(Parse.Chars("\'\"").Token(), Parse.Chars("\'\"").Token())
+            from semicolon in Parse.Char(';').Token().Optional()
+            select new ImportDeclaration()
+            {
+                ImportClause = new ImportClause()
+                {
+                    NamedBindings = new List<Node>()
+                    {
+                        new NamespaceImport()
+                        {
+                            Name = new Identifier() { Text = name}
+                        }
+                    }
+                },
+                ModuleSpecifier = new StringLiteral()
+                {
+                    Text = package
+                }
+            };
+
+        public static Parser<ImportDeclaration> ImportDeclaration = NamedImports.Or(NamespaceImport);
 
         /// <summary>
         /// export interface SomeType {}
@@ -172,7 +232,6 @@ namespace TSDParser
                 Modifiers = @readonly.IsDefined? new List<Node>() { new ReadonlyKeyword() } : null
             };
 
-
         public static Parser<Node> ArrayType =
             from name in Name
             from array in Parse.String("[]")
@@ -233,6 +292,7 @@ namespace TSDParser
         public static Parser<SourceFile> SourceFile =
             from nodes in InterfaceDeclaration
                 .Or<Node>(ImportDeclaration)
+                .Or(ExportDeclaration)
                 .Many()
                 .Optional()
             select new SourceFile()
