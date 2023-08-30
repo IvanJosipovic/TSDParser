@@ -11,6 +11,7 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
+        output.Name.Kind.Should().Be(SyntaxKind.ImportSpecifier);
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
     }
 
@@ -57,6 +58,7 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Kind.Should().Be(SyntaxKind.HeritageClause);
         output.HeritageClauses[0].Types[0].Kind.Should().Be(SyntaxKind.ExpressionWithTypeArguments);
         output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("One");
         output.HeritageClauses[0].Types[1].Expression.Text.Should().Be("Two");

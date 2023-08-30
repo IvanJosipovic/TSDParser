@@ -11,9 +11,12 @@ namespace TSDParser.Tests
             var output = ImportParsers.ImportDeclaration.Parse(tsd);
 
             output.ImportClause.Should().BeOfType<ImportClause>();
+            output.ImportClause.Kind.Should().Be(SyntaxKind.ImportClause);
 
+            output.ImportClause.As<ImportClause>().Kind.Should().Be(SyntaxKind.ImportClause);
             output.ImportClause.As<ImportClause>().NamedBindings[0].Should().BeOfType<NamedImports>();
             output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].Should().BeOfType<ImportSpecifier>();
+            output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].As<ImportSpecifier>().Kind.Should().Be(SyntaxKind.ImportSpecifier);
             output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].As<ImportSpecifier>().Name.Text.Should().Be("MyClass");
 
             output.ModuleSpecifier.Text.Should().Be("@org/package");
