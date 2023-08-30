@@ -24,6 +24,7 @@ public class Interfaces
         output.Name.Text.Should().Be("SomeType");
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<ExportKeyword>();
+        output.Modifiers[0].As<ExportKeyword>().Kind.Should().Be(SyntaxKind.ExportKeyword);
     }
 
     [Fact]
@@ -35,6 +36,7 @@ public class Interfaces
         output.Name.Text.Should().Be("SomeType");
         output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<DeclareKeyword>();
+        output.Modifiers[0].As<DeclareKeyword>().Kind.Should().Be(SyntaxKind.DeclareKeyword);
     }
 
     [Fact]
@@ -44,7 +46,6 @@ public class Interfaces
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
         output.Modifiers[0].Should().BeOfType<ExportKeyword>();
         output.Modifiers[1].Should().BeOfType<DeclareKeyword>();
     }
