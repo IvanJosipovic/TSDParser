@@ -8,7 +8,7 @@ namespace TSDParser
 {
     public static class TSDParser
     {
-        public static Parser<string> Name = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Except(Parse.WhiteSpace);
+        public static Parser<string> Name = Parse.Identifier(Parse.Or(Parse.Letter, Parse.Chars("_")), Parse.Or(Parse.LetterOrDigit, Parse.Chars("_"))).Except(Parse.WhiteSpace);
 
         public static Parser<string> ParseComment()
         {
@@ -172,10 +172,9 @@ namespace TSDParser
                 Modifiers = @readonly.IsDefined? new List<Node>() { new ReadonlyKeyword() } : null
             };
 
-        public static Parser<string> TypeName = Parse.Or(Parse.LetterOrDigit, Parse.Chars("_$")).Many().Text();
 
         public static Parser<Node> ArrayType =
-            from name in TypeName
+            from name in Name
             from array in Parse.String("[]")
             select new ArrayType()
             {
@@ -191,12 +190,12 @@ namespace TSDParser
             from open_squar_bracket in Parse.Char('[').Token()
             from key_name in Name
             from colon in Parse.Char(':').Token()
-            from key_type_name in TypeName
+            from key_type_name in Name
             from close_square_bracket in Parse.Char(']').Token()
 
             from colon2 in Parse.Char(':').Token()
 
-            from return_name in TypeName
+            from return_name in Name
 
             from semi_colon in Parse.Char(';').Token().Optional()
             from close_bracket in Parse.Char('}').Token()
@@ -229,7 +228,7 @@ namespace TSDParser
                                             .Or(Parse.String("any").Select(x => new AnyKeyword()))
                                             .Or(Parse.String("boolean").Select(x => new BooleanKeyword()))
                                             .Or(KeyValuePair)
-                                            .Or(TypeName.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
+                                            .Or(Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
 
         public static Parser<SourceFile> SourceFile =
             from nodes in InterfaceDeclaration

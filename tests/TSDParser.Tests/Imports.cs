@@ -24,6 +24,21 @@ namespace TSDParser.Tests
         }
 
         [Fact]
+        public void Symbols()
+        {
+            var tsd = """import { _MyClass } from '@org/package';""";
+            var output = TSDParser.ImportDeclaration.Parse(tsd);
+
+            output.ImportClause.Should().BeOfType<ImportClause>();
+
+            output.ImportClause.As<ImportClause>().NamedBindings[0].Should().BeOfType<NamedImports>();
+            output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].Should().BeOfType<ImportSpecifier>();
+            output.ImportClause.As<ImportClause>().NamedBindings[0].As<NamedImports>().Elements[0].As<ImportSpecifier>().Name.Text.Should().Be("_MyClass");
+
+            output.ModuleSpecifier.Text.Should().Be("@org/package");
+        }
+
+        [Fact]
         public void Quotes()
         {
             var tsd = """import { MyClass } from "@org/package";""";
