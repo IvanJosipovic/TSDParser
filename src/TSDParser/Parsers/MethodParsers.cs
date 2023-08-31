@@ -9,6 +9,11 @@
         public static Parser<MethodSignature> MethodSignature =
             from comment in CommonParsers.Comment().Optional()
             from name in CommonParsers.Name.Token()
+
+            from openBracket in Parse.Char('<').Token().Optional()
+            from typeParameters in CommonParsers.TypeParameter.Token().DelimitedBy(Parse.Char(',')).Optional()
+            from closeBracket in Parse.Char('>').Token().Optional()
+
             from open_bracket in Parse.Char('(').Token()
             from parameters in CommonParsers.Parameter.DelimitedBy(Parse.Char(',').Token()).Token().Optional()
             from close_bracket in Parse.Char(')').Token()
@@ -24,6 +29,7 @@
                 },
                 Parameters = parameters.IsDefined ? parameters.Get().ToList() : null,
                 Type = type,
+                TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null
             };
     }
 }

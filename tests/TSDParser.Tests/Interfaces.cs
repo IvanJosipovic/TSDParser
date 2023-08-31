@@ -236,4 +236,51 @@ public class Interfaces
         output.Statements[3].As<MethodSignature>().Name.Text.Should().Be("myfunc1");
         output.Statements[3].As<MethodSignature>().Type.Should().BeOfType<VoidKeyword>();
     }
+
+    [Fact]
+    public void Generic()
+    {
+        var tsd = """interface SomeType<T> {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.TypeParameters[0].Name.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void GenericMultiple()
+    {
+        var tsd = """interface SomeType<T,T2> {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.TypeParameters[0].Name.Text.Should().Be("T");
+        output.TypeParameters[1].Name.Text.Should().Be("T2");
+    }
+
+    [Fact]
+    public void GenericConstraint()
+    {
+        var tsd = """interface SomeType<T extends IPlugin> {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.TypeParameters[0].Name.Text.Should().Be("T");
+        output.TypeParameters[0].Constraint.Should().BeOfType<TypeReference>();
+        output.TypeParameters[0].Constraint.As<TypeReference>().TypeName.Text.Should().Be("IPlugin");
+    }
+
+    [Fact]
+    public void GenericDefaultConstraint()
+    {
+        var tsd = """interface SomeType<T extends IPlugin = IPlugin> {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.TypeParameters[0].Name.Text.Should().Be("T");
+        output.TypeParameters[0].Constraint.Should().BeOfType<TypeReference>();
+        output.TypeParameters[0].Constraint.As<TypeReference>().TypeName.Text.Should().Be("IPlugin");
+        output.TypeParameters[0].Default.Should().BeOfType<TypeReference>();
+        output.TypeParameters[0].Default.As<TypeReference>().TypeName.Text.Should().Be("IPlugin");
+    }
 }

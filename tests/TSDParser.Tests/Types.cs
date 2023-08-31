@@ -150,6 +150,34 @@ public class Types
         output.As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("Three");
     }
 
+    [Fact]
+    public void GenericFunctionType()
+    {
+        var tsd = """Test<() => void>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("Test");
+
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<FunctionType>();
+        output.As<TypeReference>().TypeArguments[0].As<FunctionType>().Type.Should().BeOfType<VoidKeyword>();
+    }
+
+    [Fact]
+    public void GenericParamFunctionType()
+    {
+        var tsd = """Test<(param: string) => void>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("Test");
+
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<FunctionType>();
+        output.As<TypeReference>().TypeArguments[0].As<FunctionType>().Parameters[0].Name.Text.Should().Be("param");
+        output.As<TypeReference>().TypeArguments[0].As<FunctionType>().Parameters[0].Type.Should().BeOfType<StringKeyword>();
+        output.As<TypeReference>().TypeArguments[0].As<FunctionType>().Type.Should().BeOfType<VoidKeyword>();
+    }
+
     //        [Fact]
     //        public void Union()
     //        {

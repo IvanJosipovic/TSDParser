@@ -15,6 +15,7 @@
         NumberKeyword = 150,
         StringKeyword = 154,
         UndefinedKeyword = 157,
+        TypeParameter = 168,
         Parameter = 169,
         PropertySignature = 171,
         MethodSignature = 173,
