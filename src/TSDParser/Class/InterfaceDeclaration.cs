@@ -13,5 +13,7 @@ namespace TSDParser.Class
         public List<HeritageClause> HeritageClauses { get; set; }
 
         public List<Node> Modifiers { get; set; }
+
+        public List<TypeParameter>? TypeParameters { get; set; }
     }
 }

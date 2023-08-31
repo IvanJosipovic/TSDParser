@@ -11,5 +11,7 @@ namespace TSDParser.Class
         public Node Type { get; set; }
 
         public List<Parameter>? Parameters { get; set; }
+
+        public List<TypeParameter>? TypeParameters { get; set; }
     }
 }

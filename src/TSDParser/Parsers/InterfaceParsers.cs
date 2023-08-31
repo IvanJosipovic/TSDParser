@@ -5,6 +5,7 @@
         /// <summary>
         /// export interface SomeType {}
         /// export interface SomeType extends One, Two, Three {}
+        /// export interface SomeType<T,T2> {}
         /// </summary>
         public static Parser<InterfaceDeclaration> InterfaceDeclaration =
             from comment in CommonParsers.Comment().Optional()
@@ -12,6 +13,10 @@
             from declare in Parse.String("declare").Token().Optional()
             from keyword in Parse.String("interface").Token()
             from name in CommonParsers.Name.Token()
+
+            from openBracket in Parse.Char('<').Token().Optional()
+            from typeParameters in CommonParsers.TypeParameter.Token().DelimitedBy(Parse.Char(',')).Optional()
+            from closeBracket in Parse.Char('>').Token().Optional()
 
             from extends_token in Parse.String("extends").Token().Optional()
             from extends in CommonParsers.Name.Token().DelimitedBy(Parse.Char(',').Token()).Optional()
@@ -41,7 +46,8 @@
                 {
                     { export.IsDefined ? new ExportKeyword() : null },
                     { declare.IsDefined ? new DeclareKeyword() : null }
-                }.Where(x => x is not null).ToList()
+                }.Where(x => x is not null).ToList(),
+                TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null
             };
     }
 }

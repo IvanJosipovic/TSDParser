@@ -36,5 +36,29 @@
                 return line.Trim().TrimStart('*').TrimStart('~').Trim();
             }
         }
+
+                /// <summary>
+        /// T
+        /// T extends IPlugin
+        /// T extends IPlugin = IPlugin
+        /// </summary>
+        /// <returns></returns>
+        public static Parser<TypeParameter> TypeParameter =
+            from type in Name
+
+            from keyword in Parse.String("extends").Token().Optional()
+
+            from extended_type in TypeParsers.Type.Optional()
+
+            from equal in Parse.Char('=').Token().Optional()
+
+            from default_type in TypeParsers.Type.Optional()
+
+            select new TypeParameter()
+            {
+                Name = new Identifier() { Text = type},
+                Constraint = extended_type.IsDefined ? extended_type.Get() : null,
+                Default = default_type.IsDefined ? default_type.Get() : null
+            };
     }
 }
