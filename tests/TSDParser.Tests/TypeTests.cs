@@ -2,7 +2,7 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Types
+public class TypeTests
 {
     [Fact]
     public void Boolean()

@@ -2,7 +2,7 @@
 
 namespace TSDParser.Tests
 {
-    public class Exports
+    public class ExportDeclarationTests
     {
         [Fact]
         public void Empty()

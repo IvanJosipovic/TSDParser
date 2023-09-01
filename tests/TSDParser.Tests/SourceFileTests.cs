@@ -2,7 +2,7 @@
 
 namespace TSDParser.Tests
 {
-    public class SourceFiles
+    public class SourceFileTests
     {
         [Fact]
         public void Plain()

@@ -2,7 +2,7 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Interfaces
+public class InterfaceDeclarationTests
 {
     [Fact]
     public void Empty()

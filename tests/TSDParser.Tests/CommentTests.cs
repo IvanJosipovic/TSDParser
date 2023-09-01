@@ -2,7 +2,7 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Comments
+public class CommentTests
 {
     [Fact]
     public void SingleLine()
