@@ -1,6 +1,6 @@
 ﻿namespace TSDParser.Class;
 
-public class FunctionDeclaration : Node
+public class FunctionDeclaration : Node, jsDoc
 {
     public SyntaxKind Kind => SyntaxKind.FunctionDeclaration;
 
@@ -13,4 +13,6 @@ public class FunctionDeclaration : Node
     public List<TypeParameter>? TypeParameters { get; set; }
 
     public List<Node> Modifiers { get; set; }
+
+    public JSDocComment JSDoc { get; set; }
 }

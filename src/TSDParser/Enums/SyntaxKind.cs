@@ -47,4 +47,5 @@ public enum SyntaxKind
     ExportSpecifier = 281,
     HeritageClause = 298,
     SourceFile = 312,
+    JSDocComment = 327
 }

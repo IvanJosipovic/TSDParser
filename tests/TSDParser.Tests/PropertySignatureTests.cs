@@ -77,7 +77,7 @@ public class PropertySignatureTests
             """;
         var output = PropertyParsers.PropertySignature.Parse(tsd);
 
-        output.Name.Comment.Should().Be("Property Comment");
+        output.JSDoc.Comment.Should().Be("Property Comment");
     }
 
     [Fact]

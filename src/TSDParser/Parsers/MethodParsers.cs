@@ -27,13 +27,13 @@ internal class MethodParsers
         {
             Name = new Identifier()
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Parameters = parameters.IsDefined ? parameters.Get().ToList() : null,
             Type = type,
             TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null,
-            QuestionToken = nullable.IsDefined ? new QuestionToken() : null
+            QuestionToken = nullable.IsDefined ? new QuestionToken() : null,
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 
     /// <summary>
@@ -64,7 +64,6 @@ internal class MethodParsers
         {
             Name = new Identifier()
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Parameters = parameters.IsDefined ? parameters.Get().ToList() : null,
@@ -77,6 +76,7 @@ internal class MethodParsers
                 @protected.IsDefined? new ProtectedKeyword() : null,
                 @abstract.IsDefined? new FirstContextualKeyword() : null,
             }.Where(x => x is not null).ToList(),
-            QuestionToken = nullable.IsDefined ? new QuestionToken() : null
+            QuestionToken = nullable.IsDefined ? new QuestionToken() : null,
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 }

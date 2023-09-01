@@ -31,7 +31,6 @@ internal class InterfaceParsers
         {
             Name = new Identifier
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Statements = new List<Node>(statements.GetOrDefault()),
@@ -51,6 +50,7 @@ internal class InterfaceParsers
                 { export.IsDefined ? new ExportKeyword() : null },
                 { declare.IsDefined ? new DeclareKeyword() : null }
             }.Where(x => x is not null).ToList(),
-            TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null
+            TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null,
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 }

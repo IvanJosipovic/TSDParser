@@ -31,7 +31,6 @@ internal class FunctionParsers
         {
             Name = new Identifier()
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Parameters = parameters.IsDefined ? parameters.Get().ToList() : null,
@@ -41,6 +40,7 @@ internal class FunctionParsers
             {
                 @export.IsDefined? new ExportKeyword() : null,
                 @declare.IsDefined? new DeclareKeyword() : null,
-            }.Where(x => x is not null).ToList()
+            }.Where(x => x is not null).ToList(),
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 }

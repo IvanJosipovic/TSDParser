@@ -1,6 +1,6 @@
 ﻿namespace TSDParser.Class;
 
-public class InterfaceDeclaration : Node
+public class InterfaceDeclaration : Node, jsDoc
 {
     public SyntaxKind Kind => SyntaxKind.InterfaceDeclaration;
 
@@ -13,4 +13,6 @@ public class InterfaceDeclaration : Node
     public List<Node> Modifiers { get; set; }
 
     public List<TypeParameter>? TypeParameters { get; set; }
+
+    public JSDocComment JSDoc { get; set; }
 }

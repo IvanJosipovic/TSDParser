@@ -1,6 +1,6 @@
 ﻿namespace TSDParser.Class;
 
-public class PropertySignature : Node
+public class PropertySignature : Node, jsDoc
 {
     public SyntaxKind Kind => SyntaxKind.PropertySignature;
 
@@ -11,4 +11,6 @@ public class PropertySignature : Node
     public QuestionToken? QuestionToken { get; set; }
 
     public List<Node> Modifiers { get; set; }
+
+    public JSDocComment JSDoc { get; set; }
 }

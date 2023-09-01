@@ -57,7 +57,7 @@ public class MethodSignatureTests
         var output = MethodParsers.MethodSignature.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
-        output.Name.Comment.Should().Be("myComment");
+        output.JSDoc.Comment.Should().Be("myComment");
         output.Type.Should().BeOfType<VoidKeyword>();
     }
 

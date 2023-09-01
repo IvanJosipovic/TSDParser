@@ -177,7 +177,7 @@ public class InterfaceDeclarationTests
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Name.Comment.Should().Be("Interface Comment");
+        output.JSDoc.Comment.Should().Be("Interface Comment");
     }
 
     [Fact]

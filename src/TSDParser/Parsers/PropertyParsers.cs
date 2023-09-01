@@ -25,12 +25,12 @@ internal class PropertyParsers
         {
             Name = new Identifier
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Type = arrow.IsDefined ? new FunctionType() { Type = return_type, Parameters = parameters.IsDefined ? parameters.Get().ToList() : null } : return_type,
             QuestionToken = nullable.IsDefined ? new QuestionToken() : null,
-            Modifiers = @readonly.IsDefined ? new List<Node>() { new ReadonlyKeyword() } : null
+            Modifiers = @readonly.IsDefined ? new List<Node>() { new ReadonlyKeyword() } : null,
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 
     /// <summary>
@@ -59,7 +59,6 @@ internal class PropertyParsers
         {
             Name = new Identifier
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Type = arrow.IsDefined ? new FunctionType() { Type = return_type, Parameters = parameters.IsDefined ? parameters.Get().ToList() : null } : return_type,
@@ -69,6 +68,7 @@ internal class PropertyParsers
                 @protected.IsDefined ? new ProtectedKeyword() : null,
                 @static.IsDefined ? new StaticKeyword() : null,
                 @readonly.IsDefined ? new ReadonlyKeyword() : null
-            }.Where(x => x is not null).ToList()
+            }.Where(x => x is not null).ToList(),
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 }

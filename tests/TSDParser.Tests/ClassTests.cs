@@ -269,7 +269,7 @@ public class ClassTests
         var output = ClassParsers.ClassDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Name.Comment.Should().Be("Class Comment");
+        output.JSDoc.Comment.Should().Be("Class Comment");
     }
 
     [Fact]

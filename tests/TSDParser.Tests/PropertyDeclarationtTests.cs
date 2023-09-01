@@ -77,7 +77,7 @@ public class PropertyDeclarationTests
             """;
         var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
-        output.Name.Comment.Should().Be("Property Comment");
+        output.JSDoc.Comment.Should().Be("Property Comment");
     }
 
     [Fact]

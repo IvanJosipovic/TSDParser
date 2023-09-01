@@ -46,7 +46,6 @@ internal class ClassParsers
         {
             Name = new Identifier
             {
-                Comment = comment.GetOrDefault(),
                 Text = name
             },
             Members = new List<Node>(statements.GetOrDefault()),
@@ -67,6 +66,7 @@ internal class ClassParsers
                 { declare.IsDefined ? new DeclareKeyword() : null },
                 { @abstract.IsDefined ? new FirstContextualKeyword() : null }
             }.Where(x => x is not null).ToList(),
-            TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null
+            TypeParameters = typeParameters.IsDefined ? typeParameters.Get().ToList() : null,
+            JSDoc = comment.IsDefined ? new JSDocComment() { Comment = comment.Get() } : null
         };
 }
