@@ -124,8 +124,8 @@ public class ClassTests
 
         output.Should().BeOfType<ClassDeclaration>();
         output.As<ClassDeclaration>().Name.Text.Should().Be("SomeType");
-        output.As<ClassDeclaration>().Kind.Should().Be(SyntaxKind.ClassDeclaration);
         output.As<ClassDeclaration>().Members[0].Should().BeOfType<Constructor>();
+        output.As<ClassDeclaration>().Members[0].As<Constructor>().Kind.Should().Be(SyntaxKind.ClassDeclaration);
         output.As<ClassDeclaration>().Members[0].As<Constructor>().Parameters[0].Name.Text.Should().Be("name");
         output.As<ClassDeclaration>().Members[0].As<Constructor>().Parameters[0].Type.Should().BeOfType<StringKeyword>();
     }
