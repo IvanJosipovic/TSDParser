@@ -2,8 +2,19 @@
 
 namespace TSDParser.Tests
 {
-    public class Exports
+    public class ExportDeclarationTests
     {
+        [Fact]
+        public void Empty()
+        {
+            var tsd = """export { }""";
+            var output = ExportParsers.ExportDeclaration.Parse(tsd);
+            output.Kind.Should().Be(SyntaxKind.ExportDeclaration);
+
+            output.ExportClause.Should().BeOfType<NamedExports>();
+            output.ExportClause.As<NamedExports>().Kind.Should().Be(SyntaxKind.NamedExports);
+        }
+
         [Fact]
         public void Single()
         {

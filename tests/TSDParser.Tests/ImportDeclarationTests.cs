@@ -2,7 +2,7 @@
 
 namespace TSDParser.Tests
 {
-    public class Imports
+    public class ImportDeclarationTests
     {
         [Fact]
         public void Import()

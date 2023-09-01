@@ -2,15 +2,15 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Methods
+public class MethodDeclarationTests
 {
     [Fact]
     public void Void()
     {
         var tsd = """myFunc(): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
-        output.Kind.Should().Be(SyntaxKind.MethodSignature);
+        output.Kind.Should().Be(SyntaxKind.MethodDeclaration);
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
     }
@@ -19,7 +19,7 @@ public class Methods
     public void VoidNoSpace()
     {
         var tsd = """myFunc():void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -29,7 +29,7 @@ public class Methods
     public void VoidNoSemiColon()
     {
         var tsd = """myFunc(): void""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -42,7 +42,7 @@ public class Methods
             /* myComment */
             myFunc(): void;
             """;
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Name.Comment.Should().Be("myComment");
@@ -53,7 +53,7 @@ public class Methods
     public void Parameter()
     {
         var tsd = """myFunc(param: string): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -68,7 +68,7 @@ public class Methods
     public void MultiParameter()
     {
         var tsd = """myFunc(param: string, param2: number): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -86,7 +86,7 @@ public class Methods
     public void Nullable()
     {
         var tsd = """myFunc(param?: string): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -101,7 +101,7 @@ public class Methods
     public void ParameterFunction()
     {
         var tsd = """myFunc(callBack: () => void): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -116,7 +116,7 @@ public class Methods
     public void ParameterFunctionParameters()
     {
         var tsd = """myFunc(callback: (param: string) => void): void;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -135,7 +135,7 @@ public class Methods
     public void Generic()
     {
         var tsd = """myFunc<Type>(param: Type): Type;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
 
@@ -156,7 +156,7 @@ public class Methods
     public void GenericMultiple()
     {
         var tsd = """myFunc<Type,Type2>(param: Type): Type;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
 
@@ -181,7 +181,7 @@ public class Methods
     public void GenericConstraint()
     {
         var tsd = """myFunc<T extends IPlugin>(param: string): ILoadedPlugin<T>;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
 
@@ -205,7 +205,7 @@ public class Methods
     public void GenericDefaultConstraint()
     {
         var tsd = """myFunc<T extends IPlugin = IPlugin>(param: string): ILoadedPlugin<T>;""";
-        var output = MethodParsers.MethodSignature.Parse(tsd);
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("myFunc");
 

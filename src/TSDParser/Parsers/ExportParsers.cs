@@ -5,7 +5,7 @@
         public static Parser<ExportSpecifier> ExportSpecifier =
             from name in CommonParsers.Name
             from keyword in Parse.String("as").Token().Optional()
-            from propertyName in CommonParsers.Name.Optional()
+            from propertyName in CommonParsers.Name.Where(x => keyword.IsDefined && x.Any()).Optional()
             select new ExportSpecifier()
             {
                 Name = propertyName.IsDefined ? new Identifier() { Text = propertyName.Get() } : new Identifier() { Text = name },
@@ -21,13 +21,13 @@
         public static Parser<ExportDeclaration> ExportDeclaration =
             from keyword in Parse.String("export").Token()
             from open_bracket in Parse.Char('{').Token()
-            from exportSpecifiers in ExportSpecifier.DelimitedBy(Parse.Char(',').Token())
+            from exportSpecifiers in ExportSpecifier.DelimitedBy(Parse.Char(',').Token()).Optional()
             from close_bracket in Parse.Char('}').Token()
             select new ExportDeclaration()
             {
                 ExportClause = new NamedExports()
                 {
-                    Elements = new List<ExportSpecifier>(exportSpecifiers)
+                    Elements = exportSpecifiers.IsDefined ? new List<ExportSpecifier>(exportSpecifiers.Get()) : null
                 }
             };
     }

@@ -2,7 +2,7 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Parameters
+public class ParameterTests
 {
     [Fact]
     public void String()

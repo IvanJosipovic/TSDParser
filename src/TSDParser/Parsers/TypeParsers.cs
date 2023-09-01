@@ -3,12 +3,36 @@
     internal class TypeParsers
     {
         /// <summary>
+        /// string | number
+        /// </summary>
+        public static Parser<UnionType> Union =
+            from types in Parse.Identifier(Parse.Or(Parse.Letter, Parse.Chars("_[]<>")), Parse.Or(Parse.LetterOrDigit, Parse.Chars("_[]<>"))).Except(Parse.WhiteSpace).Except(Parse.Char('&'))
+                                .DelimitedBy(Parse.Char('|').Token())
+                                .Where(x => x.Count() > 1)
+            select new UnionType()
+            {
+                Types = types.Select(x => Type.Parse(x)).ToList()
+            };
+
+        /// <summary>
+        /// string & number
+        /// </summary>
+        public static Parser<IntersectionType> Intersection =
+            from types in Parse.Identifier(Parse.Or(Parse.Letter, Parse.Chars("_[]<>")), Parse.Or(Parse.LetterOrDigit, Parse.Chars("_[]<>"))).Except(Parse.WhiteSpace).Except(Parse.Char('|'))
+                                .DelimitedBy(Parse.Char('&').Token())
+                                .Where(x => x.Count() > 1)
+            select new IntersectionType()
+            {
+                Types = types.Select(x => Type.Parse(x)).ToList()
+            };
+
+        /// <summary>
         /// One<Two,Three>
         /// </summary>
         public static Parser<TypeReference> Generic =
             from name in CommonParsers.Name
             from open_angle_bracket in Parse.Char('<').Token()
-            from types in Type.DelimitedBy(Parse.Char(','))
+            from types in Type.DelimitedBy(Parse.Char(',').Token())
             from close_angle_bracket in Parse.Char('>').Token()
             select new TypeReference()
             {
@@ -96,7 +120,9 @@
                 }
             };
 
-        public static Parser<Node> Type = ArrayType
+        public static Parser<Node> Type = Union
+                                            .Or<Node>(Intersection)
+                                            .Or(ArrayType)
                                             .Or(Parse.String("void").Select(x => new VoidKeyword()))
                                             .Or(Parse.String("null").Select(x => new NullKeyword()))
                                             .Or(Parse.String("undefined").Select(x => new UndefinedKeyword()))

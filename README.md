@@ -12,9 +12,10 @@ Features:
 
 - Import and parse TypeScript Definitions to a light Abstract Syntax Tree
 - Supports:
+  - Classes
+  - Comments
   - Imports
   - Interfaces
   - Methods
   - Properties
   - Types
-  - Comments

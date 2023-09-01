@@ -3,14 +3,18 @@
     internal class SourceFileParsers
     {
         public static Parser<SourceFile> SourceFile =
-            from nodes in InterfaceParsers.InterfaceDeclaration
+            from nodes in
+                InterfaceParsers.InterfaceDeclaration
+                .Or<Node>(ClassParsers.ClassDeclaration)
                 .Or<Node>(ImportParsers.ImportDeclaration)
-                .Or(ExportParsers.ExportDeclaration)
+                .Or<Node>(ExportParsers.ExportDeclaration)
+                .Or<object>(Parse.LineEnd.Text())
+                .Or<object>(CommonParsers.Comment())
                 .Many()
                 .Optional()
             select new SourceFile()
             {
-                Statements = new List<Node>(nodes.GetOrDefault())
+                Statements = new List<Node>(nodes.GetOrDefault()?.Where(x => x is Node).Cast<Node>().ToList())
             };
     }
 }

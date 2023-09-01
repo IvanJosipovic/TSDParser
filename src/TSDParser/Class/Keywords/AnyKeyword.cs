@@ -1,6 +1,4 @@
-﻿using TSDParser.Enums;
-
-namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords
 {
     public class AnyKeyword : Node
     {

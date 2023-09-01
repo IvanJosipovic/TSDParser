@@ -1,8 +1,8 @@
 ﻿namespace TSDParser.Class
 {
-    public class MethodSignature : Node
+    public class MethodDeclaration : Node
     {
-        public SyntaxKind Kind => SyntaxKind.MethodSignature;
+        public SyntaxKind Kind => SyntaxKind.MethodDeclaration;
 
         public Identifier Name { get; set; }
 
@@ -11,5 +11,7 @@
         public List<Parameter>? Parameters { get; set; }
 
         public List<TypeParameter>? TypeParameters { get; set; }
+
+        public List<Node> Modifiers { get; set; }
     }
 }
