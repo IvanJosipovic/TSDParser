@@ -36,6 +36,18 @@ public class MethodSignatureTests
     }
 
     [Fact]
+    public void Nullable()
+    {
+        var tsd = """myFunc?(): void;""";
+        var output = MethodParsers.MethodSignature.Parse(tsd);
+
+        output.Kind.Should().Be(SyntaxKind.MethodSignature);
+        output.Name.Text.Should().Be("myFunc");
+        output.Type.Should().BeOfType<VoidKeyword>();
+        output.QuestionToken.Should().NotBeNull();
+    }
+
+    [Fact]
     public void Comments()
     {
         var tsd = """
@@ -83,7 +95,7 @@ public class MethodSignatureTests
     }
 
     [Fact]
-    public void Nullable()
+    public void NullableParameter()
     {
         var tsd = """myFunc(param?: string): void;""";
         var output = MethodParsers.MethodSignature.Parse(tsd);

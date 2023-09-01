@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class UnionType : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.UnionType;
+﻿namespace TSDParser.Class;
 
-        public List<Node> Types { get; set; }
-    }
+public class UnionType : Node
+{
+    public SyntaxKind Kind => SyntaxKind.UnionType;
+
+    public List<Node> Types { get; set; }
 }

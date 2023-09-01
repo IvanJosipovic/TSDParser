@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords;
+
+public class ExportKeyword : Node
 {
-    public class ExportKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ExportKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.ExportKeyword;
 }

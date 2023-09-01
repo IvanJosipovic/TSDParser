@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class VoidKeyword : Node
 {
-    public class VoidKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.VoidKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.VoidKeyword;
 }

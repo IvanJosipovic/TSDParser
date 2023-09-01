@@ -120,6 +120,33 @@ public class PropertyDeclarationTests
     }
 
     [Fact]
+    public void Protected()
+    {
+        var tsd = """protected name: SomeClass;""";
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("name");
+        output.Type.Should().BeOfType<TypeReference>();
+        output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+        output.Modifiers[0].As<ProtectedKeyword>().Kind.Should().Be(SyntaxKind.ProtectedKeyword);
+    }
+
+    [Fact]
+    public void ProtectedStaticReadOnly()
+    {
+        var tsd = """protected static readonly name: SomeClass;""";
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("name");
+        output.Type.Should().BeOfType<TypeReference>();
+        output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+        output.Modifiers[1].Should().BeOfType<StaticKeyword>();
+        output.Modifiers[2].Should().BeOfType<ReadonlyKeyword>();
+    }
+
+    [Fact]
     public void FunctionTypeVoid()
     {
         var tsd = """name: () => void;""";

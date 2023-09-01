@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords;
+
+public class UndefinedKeyword : Node
 {
-    public class UndefinedKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.UndefinedKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.UndefinedKeyword;
 }

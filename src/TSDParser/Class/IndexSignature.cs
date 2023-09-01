@@ -1,11 +1,10 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class IndexSignature : Node
 {
-    public class IndexSignature : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.IndexSignature;
+    public SyntaxKind Kind => SyntaxKind.IndexSignature;
 
-        public List<Parameter> Parameters { get; set; }
+    public List<Parameter> Parameters { get; set; }
 
-        public Node Type { get; set; }
-    }
+    public Node Type { get; set; }
 }

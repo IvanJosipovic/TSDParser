@@ -51,6 +51,30 @@ public class ClassTests
     }
 
     [Fact]
+    public void Abstract()
+    {
+        var tsd = """abstract class SomeType {}""";
+        var output = ClassParsers.ClassDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.Modifiers[0].Should().BeOfType<FirstContextualKeyword>();
+        output.Modifiers[0].As<FirstContextualKeyword>().Kind.Should().Be(SyntaxKind.FirstContextualKeyword);
+    }
+
+    [Fact]
+    public void ExportDeclareAbstract()
+    {
+        var tsd = """export declare abstract class SomeType {}""";
+        var output = ClassParsers.ClassDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.Modifiers[0].Should().BeOfType<ExportKeyword>();
+        output.Modifiers[1].Should().BeOfType<DeclareKeyword>();
+        output.Modifiers[2].Should().BeOfType<FirstContextualKeyword>();
+
+    }
+
+    [Fact]
     public void Extends()
     {
         var tsd = """
@@ -97,6 +121,20 @@ public class ClassTests
     }
 
     [Fact]
+    public void ImplementsGeneric()
+    {
+        var tsd = """class SomeType implements Type<CfgType> {}""";
+        var output = ClassParsers.ClassDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Kind.Should().Be(SyntaxKind.HeritageClause);
+        output.HeritageClauses[0].Types[0].Kind.Should().Be(SyntaxKind.ExpressionWithTypeArguments);
+        output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("Type");
+        output.HeritageClauses[0].Types[0].TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.HeritageClauses[0].Types[0].TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("CfgType");
+    }
+
+    [Fact]
     public void ImplementsNoSpace()
     {
         var tsd = """
@@ -112,6 +150,24 @@ public class ClassTests
 
     [Fact]
     public void Constructor()
+    {
+        var tsd = """
+            class SomeType {
+                constructor();
+            }
+            """;
+        var output = ClassParsers.ClassDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+
+        output.Should().BeOfType<ClassDeclaration>();
+        output.As<ClassDeclaration>().Name.Text.Should().Be("SomeType");
+        output.As<ClassDeclaration>().Members[0].Should().BeOfType<Constructor>();
+        output.As<ClassDeclaration>().Members[0].As<Constructor>().Kind.Should().Be(SyntaxKind.Constructor);
+    }
+
+    [Fact]
+    public void ConstructorParam()
     {
         var tsd = """
             class SomeType {

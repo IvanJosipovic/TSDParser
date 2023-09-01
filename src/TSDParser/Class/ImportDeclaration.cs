@@ -1,11 +1,10 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class ImportDeclaration : Node
 {
-    public class ImportDeclaration : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ImportDeclaration;
+    public SyntaxKind Kind => SyntaxKind.ImportDeclaration;
 
-        public ImportClause ImportClause { get; set; }
+    public ImportClause ImportClause { get; set; }
 
-        public StringLiteral ModuleSpecifier { get; set; }
-    }
+    public StringLiteral ModuleSpecifier { get; set; }
 }

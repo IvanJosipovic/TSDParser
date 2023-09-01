@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class ReadonlyKeyword : Node
 {
-    public class ReadonlyKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ReadonlyKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.ReadonlyKeyword;
 }

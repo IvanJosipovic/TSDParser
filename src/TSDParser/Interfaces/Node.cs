@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Interfaces
+﻿namespace TSDParser.Interfaces;
+
+public interface Node
 {
-    public interface Node
-    {
-        SyntaxKind Kind { get; }
-    }
+    SyntaxKind Kind { get; }
 }

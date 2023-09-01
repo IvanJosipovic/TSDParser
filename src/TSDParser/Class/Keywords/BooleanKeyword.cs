@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords;
+
+public class BooleanKeyword : Node
 {
-    public class BooleanKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.BooleanKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.BooleanKeyword;
 }

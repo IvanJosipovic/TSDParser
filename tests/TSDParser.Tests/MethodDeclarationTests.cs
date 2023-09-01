@@ -36,6 +36,18 @@ public class MethodDeclarationTests
     }
 
     [Fact]
+    public void Nullable()
+    {
+        var tsd = """myFunc?(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Kind.Should().Be(SyntaxKind.MethodDeclaration);
+        output.Name.Text.Should().Be("myFunc");
+        output.Type.Should().BeOfType<VoidKeyword>();
+        output.QuestionToken.Should().NotBeNull();
+    }
+
+    [Fact]
     public void Comments()
     {
         var tsd = """
@@ -83,7 +95,7 @@ public class MethodDeclarationTests
     }
 
     [Fact]
-    public void Nullable()
+    public void NullableParameter()
     {
         var tsd = """myFunc(param?: string): void;""";
         var output = MethodParsers.MethodDeclaration.Parse(tsd);
@@ -227,5 +239,51 @@ public class MethodDeclarationTests
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("ILoadedPlugin");
         output.Type.As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void Static()
+    {
+        var tsd = """static myFunc(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Modifiers[0].Should().BeOfType<StaticKeyword>();
+    }
+
+    [Fact]
+    public void Protected()
+    {
+        var tsd = """protected myFunc(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+    }
+
+    [Fact]
+    public void Private()
+    {
+        var tsd = """private myFunc(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Modifiers[0].Should().BeOfType<PrivateKeyword>();
+    }
+
+    [Fact]
+    public void Abstract()
+    {
+        var tsd = """abstract myFunc(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Modifiers[0].Should().BeOfType<FirstContextualKeyword>();
+    }
+
+    [Fact]
+    public void ProtectedAbstract()
+    {
+        var tsd = """protected abstract myFunc(): void;""";
+        var output = MethodParsers.MethodDeclaration.Parse(tsd);
+
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+        output.Modifiers[1].Should().BeOfType<FirstContextualKeyword>();
     }
 }
