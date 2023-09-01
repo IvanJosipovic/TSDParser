@@ -48,7 +48,7 @@ internal class TypeParsers
         from name in CommonParsers.Name
         from open_angle_bracket in Parse.Char('<').Token()
 
-        // FunctionType Params
+            // FunctionType Params
         from open_bracket in Parse.Char('(').Token()
         from parameters in CommonParsers.Parameter.DelimitedBy(Parse.Char(',').Token()).Optional().Token()
         from close_bracket in Parse.Char(')').Token()

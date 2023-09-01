@@ -37,7 +37,7 @@ internal class CommonParsers
         }
     }
 
-            /// <summary>
+    /// <summary>
     /// T
     /// T extends IPlugin
     /// T extends IPlugin = IPlugin
@@ -56,7 +56,7 @@ internal class CommonParsers
 
         select new TypeParameter()
         {
-            Name = new Identifier() { Text = type},
+            Name = new Identifier() { Text = type },
             Constraint = extended_type.IsDefined ? extended_type.Get() : null,
             Default = default_type.IsDefined ? default_type.Get() : null
         };

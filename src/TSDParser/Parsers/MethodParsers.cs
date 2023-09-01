@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TSDParser.Parsers;
+﻿namespace TSDParser.Parsers;
 
 internal class MethodParsers
 {

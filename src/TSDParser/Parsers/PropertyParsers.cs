@@ -13,7 +13,7 @@ internal class PropertyParsers
         from nullable in Parse.Char('?').Optional()
         from colon in Parse.Char(':').Token()
 
-        // FunctionType Params
+            // FunctionType Params
         from open_bracket in Parse.Char('(').Token().Optional()
         from parameters in CommonParsers.Parameter.DelimitedBy(Parse.Char(',').Token()).Token().Where(x => open_bracket.IsDefined && x.Any()).Optional()
         from close_bracket in Parse.Char(')').Token().Where(x => open_bracket.IsDefined && x != '\0').Optional()

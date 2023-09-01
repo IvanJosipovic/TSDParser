@@ -34,7 +34,7 @@ internal class InterfaceParsers
                 Text = name
             },
             Statements = new List<Node>(statements.GetOrDefault()),
-            HeritageClauses = extends.IsDefined  ? new List<HeritageClause>()
+            HeritageClauses = extends.IsDefined ? new List<HeritageClause>()
             {
                 new HeritageClause()
                 {

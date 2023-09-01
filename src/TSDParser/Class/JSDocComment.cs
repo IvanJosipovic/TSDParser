@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TSDParser.Class;
+﻿namespace TSDParser.Class;
 
 public class JSDocComment : Node
 {
