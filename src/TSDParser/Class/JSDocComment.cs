@@ -2,7 +2,7 @@
 
 public class JSDocComment : Node
 {
-    public SyntaxKind Kind => throw new NotImplementedException();
+    public SyntaxKind Kind => SyntaxKind.JSDocComment;
 
     public string Comment { get; set; }
 }

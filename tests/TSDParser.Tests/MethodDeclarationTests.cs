@@ -266,6 +266,8 @@ public class MethodDeclarationTests
         var output = MethodParsers.MethodDeclaration.Parse(tsd);
 
         output.Modifiers[0].Should().BeOfType<PrivateKeyword>();
+        output.Modifiers[0].As<PrivateKeyword>().Kind.Should().Be(SyntaxKind.PrivateKeyword);
+
     }
 
     [Fact]

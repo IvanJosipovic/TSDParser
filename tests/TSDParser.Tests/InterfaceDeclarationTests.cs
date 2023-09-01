@@ -178,6 +178,7 @@ public class InterfaceDeclarationTests
 
         output.Name.Text.Should().Be("SomeType");
         output.JSDoc.Comment.Should().Be("Interface Comment");
+        output.JSDoc.Kind.Should().Be(SyntaxKind.JSDocComment);
     }
 
     [Fact]
