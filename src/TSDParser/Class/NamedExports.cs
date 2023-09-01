@@ -1,11 +1,9 @@
-﻿using TSDParser.Enums;
-
-namespace TSDParser.Class
+﻿namespace TSDParser.Class
 {
     public class NamedExports : Node
     {
         public SyntaxKind Kind => SyntaxKind.NamedExports;
 
-        public List<ExportSpecifier> Elements { get; set; }
+        public List<ExportSpecifier>? Elements { get; set; }
     }
 }

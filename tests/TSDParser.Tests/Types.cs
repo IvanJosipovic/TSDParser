@@ -12,7 +12,6 @@ public class Types
 
         output.Should().BeOfType<BooleanKeyword>();
         output.Kind.Should().Be(SyntaxKind.BooleanKeyword);
-
     }
 
     [Fact]
@@ -23,7 +22,6 @@ public class Types
 
         output.Should().BeOfType<NumberKeyword>();
         output.Kind.Should().Be(SyntaxKind.NumberKeyword);
-
     }
 
     [Fact]
@@ -57,9 +55,9 @@ public class Types
     }
 
     [Fact]
-    public void Class()
+    public void Type()
     {
-        var tsd = """SomeClass""";
+        var tsd = """Type""";
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeReference>();
@@ -178,56 +176,103 @@ public class Types
         output.As<TypeReference>().TypeArguments[0].As<FunctionType>().Type.Should().BeOfType<VoidKeyword>();
     }
 
-    //        [Fact]
-    //        public void Union()
-    //        {
-    //            var tsd = """string | number""";
-    //            var output = TSDParser.Types.Parse(tsd);
+    [Fact]
+    public void Union()
+    {
+        var tsd = """string | number""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //            output[0].Name.Should().Be("string");
-    //            output[1].Name.Should().Be("number");
-    //        }
+        output.Should().BeOfType<UnionType>();
+        output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
+        output.As<UnionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<UnionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
 
-    //        [Fact]
-    //        public void UnionArray()
-    //        {
-    //            var tsd = """string[] | number[]""";
-    //            var output = TSDParser.Types.Parse(tsd);
+    [Fact]
+    public void UnionGeneric()
+    {
+        var tsd = """Array<number> | number""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //            output[0].Name.Should().Be("string");
-    //            output[0].IsArray.Should().BeTrue();
+        output.Should().BeOfType<UnionType>();
+        output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
+        output.As<UnionType>().Types[0].Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[0].As<TypeReference>().TypeName.Text.Should().Be("Array");
+        output.As<UnionType>().Types[0].As<TypeReference>().TypeArguments[0].Should().BeOfType<NumberKeyword>();
+        output.As<UnionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
 
-    //            output[1].Name.Should().Be("number");
-    //            output[1].IsArray.Should().BeTrue();
-    //        }
+    [Fact]
+    public void UnionMulti()
+    {
+        var tsd = """string | number | boolean""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //        [Fact]
-    //        public void UnionNoSpaces()
-    //        {
-    //            var tsd = """string|number""";
-    //            var output = TSDParser.Types.Parse(tsd);
+        output.Should().BeOfType<UnionType>();
+        output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
+        output.As<UnionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<UnionType>().Types[1].Should().BeOfType<NumberKeyword>();
+        output.As<UnionType>().Types[2].Should().BeOfType<BooleanKeyword>();
+    }
 
-    //            output[0].Name.Should().Be("string");
-    //            output[1].Name.Should().Be("number");
-    //        }
+    [Fact]
+    public void UnionNoSpaces()
+    {
+        var tsd = """string|number""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //        [Fact]
-    //        public void Intersection()
-    //        {
-    //            var tsd = """string & number""";
-    //            var output = TSDParser.Types.Parse(tsd);
+        output.Should().BeOfType<UnionType>();
+        output.As<UnionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<UnionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
 
-    //            output[0].Name.Should().Be("string");
-    //            output[1].Name.Should().Be("number");
-    //        }
+    [Fact]
+    public void Intersection()
+    {
+        var tsd = """string & number""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //        [Fact]
-    //        public void IntersectionNoSpaces()
-    //        {
-    //            var tsd = """string&number""";
-    //            var output = TSDParser.Types.Parse(tsd);
+        output.Should().BeOfType<IntersectionType>();
+        output.As<IntersectionType>().Kind.Should().Be(SyntaxKind.IntersectionType);
+        output.As<IntersectionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<IntersectionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
 
-    //            output[0].Name.Should().Be("string");
-    //            output[1].Name.Should().Be("number");
-    //        }
+    [Fact]
+    public void IntersectionGeneric()
+    {
+        var tsd = """Array<number> & number""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IntersectionType>();
+        output.As<IntersectionType>().Kind.Should().Be(SyntaxKind.IntersectionType);
+        output.As<IntersectionType>().Types[0].Should().BeOfType<TypeReference>();
+        output.As<IntersectionType>().Types[0].As<TypeReference>().TypeName.Text.Should().Be("Array");
+        output.As<IntersectionType>().Types[0].As<TypeReference>().TypeArguments[0].Should().BeOfType<NumberKeyword>();
+        output.As<IntersectionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
+
+    [Fact]
+    public void IntersectionMulti()
+    {
+        var tsd = """string & number & boolean""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IntersectionType>();
+        output.As<IntersectionType>().Kind.Should().Be(SyntaxKind.IntersectionType);
+        output.As<IntersectionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<IntersectionType>().Types[1].Should().BeOfType<NumberKeyword>();
+        output.As<IntersectionType>().Types[2].Should().BeOfType<BooleanKeyword>();
+    }
+
+    [Fact]
+    public void IntersectionNoSpaces()
+    {
+        var tsd = """string&number""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IntersectionType>();
+        output.As<IntersectionType>().Types[0].Should().BeOfType<StringKeyword>();
+        output.As<IntersectionType>().Types[1].Should().BeOfType<NumberKeyword>();
+    }
 }

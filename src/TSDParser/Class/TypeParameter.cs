@@ -1,6 +1,4 @@
-﻿using TSDParser.Enums;
-
-namespace TSDParser.Class
+﻿namespace TSDParser.Class
 {
     public class TypeParameter : Node
     {

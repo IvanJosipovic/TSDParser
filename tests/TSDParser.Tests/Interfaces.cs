@@ -51,7 +51,7 @@ public class Interfaces
     }
 
     [Fact]
-    public void InterfaceExtends()
+    public void Extends()
     {
         var tsd = """
             export interface SomeType extends One, Two, Three {}
@@ -67,7 +67,7 @@ public class Interfaces
     }
 
     [Fact]
-    public void InterfaceExtendsNoSpace()
+    public void ExtendsNoSpace()
     {
         var tsd = """
             export interface SomeType extends One,Two,Three {}
@@ -92,8 +92,8 @@ public class Interfaces
 
         output.Name.Text.Should().Be("SomeType");
 
-        output.Statements[0].Should().BeOfType<PropertySignature>();
-        output.Statements[0].As<PropertySignature>().Name.Text.Should().Be("name");
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("name");
     }
 
     [Fact]
@@ -109,11 +109,11 @@ public class Interfaces
 
         output.Name.Text.Should().Be("SomeType");
 
-        output.Statements[0].Should().BeOfType<PropertySignature>();
-        output.Statements[0].As<PropertySignature>().Name.Text.Should().Be("name");
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("name");
 
-        output.Statements[1].Should().BeOfType<PropertySignature>();
-        output.Statements[1].As<PropertySignature>().Name.Text.Should().Be("name2");
+        output.Statements[1].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[1].As<Class.PropertySignature>().Name.Text.Should().Be("name2");
     }
 
     [Fact]
@@ -128,8 +128,8 @@ public class Interfaces
 
         output.Name.Text.Should().Be("SomeType");
 
-        output.Statements[0].Should().BeOfType<PropertySignature>();
-        output.Statements[0].As<PropertySignature>().Name.Text.Should().Be("myfunc");
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("myfunc");
     }
 
     [Fact]
@@ -145,11 +145,11 @@ public class Interfaces
 
         output.Name.Text.Should().Be("SomeType");
 
-        output.Statements[0].Should().BeOfType<PropertySignature>();
-        output.Statements[0].As<PropertySignature>().Name.Text.Should().Be("myfunc");
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("myfunc");
 
-        output.Statements[1].Should().BeOfType<PropertySignature>();
-        output.Statements[1].As<PropertySignature>().Name.Text.Should().Be("myfunc2");
+        output.Statements[1].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[1].As<Class.PropertySignature>().Name.Text.Should().Be("myfunc2");
     }
 
     [Fact]
@@ -220,17 +220,17 @@ public class Interfaces
 
         output.Name.Text.Should().Be("SomeType");
 
-        output.Statements[0].Should().BeOfType<PropertySignature>();
-        output.Statements[0].As<PropertySignature>().Name.Text.Should().Be("myprop");
-        output.Statements[0].As<PropertySignature>().Type.Should().BeOfType<VoidKeyword>();
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("myprop");
+        output.Statements[0].As<Class.PropertySignature>().Type.Should().BeOfType<VoidKeyword>();
 
         output.Statements[1].Should().BeOfType<MethodSignature>();
         output.Statements[1].As<MethodSignature>().Name.Text.Should().Be("myfunc");
         output.Statements[1].As<MethodSignature>().Type.Should().BeOfType<VoidKeyword>();
 
-        output.Statements[2].Should().BeOfType<PropertySignature>();
-        output.Statements[2].As<PropertySignature>().Name.Text.Should().Be("myprop1");
-        output.Statements[2].As<PropertySignature>().Type.Should().BeOfType<VoidKeyword>();
+        output.Statements[2].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[2].As<Class.PropertySignature>().Name.Text.Should().Be("myprop1");
+        output.Statements[2].As<Class.PropertySignature>().Type.Should().BeOfType<VoidKeyword>();
 
         output.Statements[3].Should().BeOfType<MethodSignature>();
         output.Statements[3].As<MethodSignature>().Name.Text.Should().Be("myfunc1");

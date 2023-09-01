@@ -2,13 +2,16 @@ using TSDParser.Parsers;
 
 namespace TSDParser.Tests;
 
-public class Properties
+/// <summary>
+/// Used in Classes
+/// </summary>
+public class PropertyDeclarationTests
 {
     [Fact]
     public void String()
     {
         var tsd = """name: string;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -18,7 +21,7 @@ public class Properties
     public void StringNoSemiColen()
     {
         var tsd = """name: string""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -28,7 +31,7 @@ public class Properties
     public void Void()
     {
         var tsd = """name: void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<VoidKeyword>();
@@ -38,7 +41,7 @@ public class Properties
     public void NoSpace()
     {
         var tsd = """name:string;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<StringKeyword>();
@@ -48,7 +51,7 @@ public class Properties
     public void Array()
     {
         var tsd = """name: string[];""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<ArrayType>();
@@ -59,7 +62,7 @@ public class Properties
     public void KeyValuePair()
     {
         var tsd = """name: { [key: string]: number; };""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<TypeLiteral>();
@@ -72,7 +75,7 @@ public class Properties
             /* Property Comment */
             name: string;
             """;
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Comment.Should().Be("Property Comment");
     }
@@ -81,7 +84,7 @@ public class Properties
     public void Nullable()
     {
         var tsd = """name?: SomeClass;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.QuestionToken.Should().NotBeNull();
@@ -94,7 +97,7 @@ public class Properties
     public void Readonly()
     {
         var tsd = """readonly name: SomeClass;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<TypeReference>();
@@ -104,14 +107,27 @@ public class Properties
     }
 
     [Fact]
+    public void Static()
+    {
+        var tsd = """static name: SomeClass;""";
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("name");
+        output.Type.Should().BeOfType<TypeReference>();
+        output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.Modifiers[0].Should().BeOfType<StaticKeyword>();
+        output.Modifiers[0].As<StaticKeyword>().Kind.Should().Be(SyntaxKind.StaticKeyword);
+    }
+
+    [Fact]
     public void FunctionTypeVoid()
     {
         var tsd = """name: () => void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
-        output.Kind.Should().Be(SyntaxKind.PropertySignature);
+        output.Kind.Should().Be(SyntaxKind.PropertyDeclaration);
         output.Type.As<FunctionType>().Type.Should().BeOfType<VoidKeyword>();
         output.Type.As<FunctionType>().Kind.Should().Be(SyntaxKind.FunctionType);
     }
@@ -120,7 +136,7 @@ public class Properties
     public void FunctionTypeVoidNoSpace()
     {
         var tsd = """name:()=>void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -131,7 +147,7 @@ public class Properties
     public void FunctionTypeParameter()
     {
         var tsd = """name: (param: string) => void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -144,7 +160,7 @@ public class Properties
     public void FunctionTypeMultiParameter()
     {
         var tsd = """name: (param: string, param2: number) => void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -159,7 +175,7 @@ public class Properties
     public void FunctionTypeNullable()
     {
         var tsd = """name: (param?: string) => void;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
         output.Type.Should().BeOfType<FunctionType>();
@@ -173,7 +189,7 @@ public class Properties
     public void GenericFunctionType()
     {
         var tsd = """name: Test<() => void>;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
 
@@ -187,7 +203,7 @@ public class Properties
     public void GenericParamFunctionType()
     {
         var tsd = """name: Test<(param: string) => void>;""";
-        var output = PropertyParsers.PropertySignature.Parse(tsd);
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("name");
 

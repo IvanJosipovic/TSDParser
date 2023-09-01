@@ -5,7 +5,7 @@
         public static Parser<ImportSpecifier> ImportSpecifier =
             from className in CommonParsers.Name.Token()
             from keyword in Parse.String("as").Optional()
-            from propertyName in CommonParsers.Name.Token().Where(x => keyword.IsDefined).Optional()
+            from propertyName in CommonParsers.Name.Token().Where(x => keyword.IsDefined && x.Any()).Optional()
             select new ImportSpecifier()
             {
                 Name = propertyName.IsDefined ? new Identifier() { Text = propertyName.Get() } : new Identifier() { Text = className },

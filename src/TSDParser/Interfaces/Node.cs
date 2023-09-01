@@ -1,6 +1,4 @@
-﻿using TSDParser.Enums;
-
-namespace TSDParser.Interfaces
+﻿namespace TSDParser.Interfaces
 {
     public interface Node
     {

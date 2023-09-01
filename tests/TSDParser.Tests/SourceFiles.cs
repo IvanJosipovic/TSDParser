@@ -50,7 +50,7 @@ namespace TSDParser.Tests
             output.Statements[1].As<InterfaceDeclaration>().Name.Text.Should().Be("SomeType");
             output.Statements[1].As<InterfaceDeclaration>().Name.Comment.Should().Be("comment");
 
-            output.Statements[1].As<InterfaceDeclaration>().Statements[0].Should().BeOfType<PropertySignature>();
+            output.Statements[1].As<InterfaceDeclaration>().Statements[0].Should().BeOfType<Class.PropertySignature>();
             output.Statements[1].As<InterfaceDeclaration>().Statements[1].Should().BeOfType<MethodSignature>();
         }
     }

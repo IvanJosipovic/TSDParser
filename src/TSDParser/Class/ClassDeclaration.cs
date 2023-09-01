@@ -1,12 +1,12 @@
 ﻿namespace TSDParser.Class
 {
-    public class InterfaceDeclaration : Node
+    public class ClassDeclaration : Node
     {
-        public SyntaxKind Kind => SyntaxKind.InterfaceDeclaration;
+        public SyntaxKind Kind => SyntaxKind.ClassDeclaration;
 
         public Identifier Name { get; set; }
 
-        public List<Node> Statements { get; set; }
+        public List<Node> Members { get; set; }
 
         public List<HeritageClause> HeritageClauses { get; set; }
 

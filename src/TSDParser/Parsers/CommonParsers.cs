@@ -10,9 +10,9 @@
             from colon in Parse.Char(':').Token()
                 // FunctionType Params
             from open_bracket in Parse.Char('(').Token().Optional()
-            from parameters in Parameter.DelimitedBy(Parse.Char(',').Token()).Token().Where(x => open_bracket.IsDefined).Optional()
+            from parameters in Parameter.DelimitedBy(Parse.Char(',').Token()).Token().Where(x => open_bracket.IsDefined && x.Any()).Optional()
             from close_bracket in Parse.Char(')').Token().Where(x => open_bracket.IsDefined).Optional()
-            from arrow in Parse.String("=>").Token().Where(x => open_bracket.IsDefined).Optional()
+            from arrow in Parse.String("=>").Token().Where(x => open_bracket.IsDefined && x.Any()).Optional()
 
             from return_type in TypeParsers.Type
             select new Parameter()

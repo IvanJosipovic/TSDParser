@@ -1,40 +1,53 @@
 ﻿namespace TSDParser.Parsers
 {
-    internal class InterfaceParsers
+    internal class ClassParsers
     {
+        public static Parser<Constructor> Constructor =
+             from comment in CommonParsers.Comment().Optional()
+             from export in Parse.String("constructor").Token().Optional()
+             from open_bracket in Parse.Char('(').Token()
+             from parameters in CommonParsers.Parameter.DelimitedBy(Parse.Char(',').Token()).Token().Optional()
+             from close_bracket in Parse.Char(')')
+             from semiColon in Parse.Char(';').Optional()
+             select new Constructor()
+             {
+                 Parameters = parameters.GetOrDefault().ToList()
+             };
+
         /// <summary>
-        /// export interface SomeType {}
-        /// export interface SomeType extends One, Two, Three {}
-        /// export interface SomeType<T,T2> {}
+        /// export class SomeType {}
+        /// export class SomeType extends One, Two, Three {}
+        /// export class SomeType<T,T2> {}
         /// </summary>
-        public static Parser<InterfaceDeclaration> InterfaceDeclaration =
+        public static Parser<ClassDeclaration> ClassDeclaration =
             from comment in CommonParsers.Comment().Optional()
             from export in Parse.String("export").Token().Optional()
             from declare in Parse.String("declare").Token().Optional()
-            from keyword in Parse.String("interface").Token()
+            from keyword in Parse.String("class").Token()
             from name in CommonParsers.Name.Token()
 
             from openBracket in Parse.Char('<').Token().Optional()
             from typeParameters in CommonParsers.TypeParameter.Token().DelimitedBy(Parse.Char(',')).Where(x => openBracket.IsDefined && x.Any()).Optional()
             from closeBracket in Parse.Char('>').Token().Where(x => openBracket.IsDefined && x != '\0').Optional()
 
-            from extends_token in Parse.String("extends").Token().Optional()
+            from extends_token in Parse.Or(Parse.String("extends"), Parse.String("implements")).Token().Optional()
             from extends in CommonParsers.Name.Token().DelimitedBy(Parse.Char(',').Token()).Where(x => extends_token.IsDefined && x.Any()).Optional()
 
             from openBrace in Parse.Char('{').Token()
-            from statements in PropertyParsers.PropertySignature
-                                .Or<Node>(MethodParsers.MethodSignature)
+            from statements in PropertyParsers.PropertyDeclaration
+                                .Or<Node>(MethodParsers.MethodDeclaration)
+                                .Or<Node>(Constructor)
                                 .Many()
                                 .Optional()
             from closeBrace in Parse.Char('}').Token()
-            select new InterfaceDeclaration
+            select new ClassDeclaration
             {
                 Name = new Identifier
                 {
                     Comment = comment.GetOrDefault(),
                     Text = name
                 },
-                Statements = new List<Node>(statements.GetOrDefault()),
+                Members = new List<Node>(statements.GetOrDefault()),
                 HeritageClauses = extends.IsDefined  ? new List<HeritageClause>()
                 {
                     new HeritageClause()
