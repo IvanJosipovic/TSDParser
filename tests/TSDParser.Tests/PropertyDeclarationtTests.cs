@@ -77,7 +77,7 @@ public class PropertyDeclarationTests
             """;
         var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
 
-        output.Name.Comment.Should().Be("Property Comment");
+        output.JSDoc.Comment.Should().Be("Property Comment");
     }
 
     [Fact]
@@ -117,6 +117,33 @@ public class PropertyDeclarationTests
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
         output.Modifiers[0].Should().BeOfType<StaticKeyword>();
         output.Modifiers[0].As<StaticKeyword>().Kind.Should().Be(SyntaxKind.StaticKeyword);
+    }
+
+    [Fact]
+    public void Protected()
+    {
+        var tsd = """protected name: SomeClass;""";
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("name");
+        output.Type.Should().BeOfType<TypeReference>();
+        output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+        output.Modifiers[0].As<ProtectedKeyword>().Kind.Should().Be(SyntaxKind.ProtectedKeyword);
+    }
+
+    [Fact]
+    public void ProtectedStaticReadOnly()
+    {
+        var tsd = """protected static readonly name: SomeClass;""";
+        var output = PropertyParsers.PropertyDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("name");
+        output.Type.Should().BeOfType<TypeReference>();
+        output.Type.As<TypeReference>().TypeName.Text.Should().Be("SomeClass");
+        output.Modifiers[0].Should().BeOfType<ProtectedKeyword>();
+        output.Modifiers[1].Should().BeOfType<StaticKeyword>();
+        output.Modifiers[2].Should().BeOfType<ReadonlyKeyword>();
     }
 
     [Fact]

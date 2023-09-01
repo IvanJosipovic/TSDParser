@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class NamedExports : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.NamedExports;
+﻿namespace TSDParser.Class;
 
-        public List<ExportSpecifier>? Elements { get; set; }
-    }
+public class NamedExports : Node
+{
+    public SyntaxKind Kind => SyntaxKind.NamedExports;
+
+    public List<ExportSpecifier>? Elements { get; set; }
 }

@@ -1,15 +1,18 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class MethodSignature : Node, jsDoc
 {
-    public class MethodSignature : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.MethodSignature;
+    public SyntaxKind Kind => SyntaxKind.MethodSignature;
 
-        public Identifier Name { get; set; }
+    public Identifier Name { get; set; }
 
-        public Node Type { get; set; }
+    public Node Type { get; set; }
 
-        public List<Parameter>? Parameters { get; set; }
+    public List<Parameter>? Parameters { get; set; }
 
-        public List<TypeParameter>? TypeParameters { get; set; }
-    }
+    public List<TypeParameter>? TypeParameters { get; set; }
+
+    public QuestionToken? QuestionToken { get; set; }
+
+    public JSDocComment JSDoc { get; set; }
 }

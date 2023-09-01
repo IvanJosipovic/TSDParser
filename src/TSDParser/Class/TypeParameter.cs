@@ -1,13 +1,12 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class TypeParameter : Node
 {
-    public class TypeParameter : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.TypeParameter;
+    public SyntaxKind Kind => SyntaxKind.TypeParameter;
 
-        public Identifier Name { get; set; }
+    public Identifier Name { get; set; }
 
-        public Node Constraint { get; set; }
+    public Node Constraint { get; set; }
 
-        public Node Default { get; set; }
-    }
+    public Node Default { get; set; }
 }

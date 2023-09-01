@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class StringLiteral : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.StringLiteral;
+﻿namespace TSDParser.Class;
 
-        public string Text { get; set; }
-    }
+public class StringLiteral : Node
+{
+    public SyntaxKind Kind => SyntaxKind.StringLiteral;
+
+    public string Text { get; set; }
 }

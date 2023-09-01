@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class ImportClause : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ImportClause;
+﻿namespace TSDParser.Class;
 
-        public List<Node> NamedBindings { get; set; }
-    }
+public class ImportClause : Node
+{
+    public SyntaxKind Kind => SyntaxKind.ImportClause;
+
+    public List<Node> NamedBindings { get; set; }
 }

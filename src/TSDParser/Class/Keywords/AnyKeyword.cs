@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords;
+
+public class AnyKeyword : Node
 {
-    public class AnyKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.AnyKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.AnyKeyword;
 }

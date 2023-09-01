@@ -1,11 +1,10 @@
-﻿namespace TSDParser.Class
+﻿namespace TSDParser.Class;
+
+public class ExportSpecifier : Node
 {
-    public class ExportSpecifier : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ExportSpecifier;
+    public SyntaxKind Kind => SyntaxKind.ExportSpecifier;
 
-        public Identifier Name { get; set; }
+    public Identifier Name { get; set; }
 
-        public Identifier PropertyName { get; set; }
-    }
+    public Identifier PropertyName { get; set; }
 }

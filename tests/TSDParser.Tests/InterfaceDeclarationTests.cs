@@ -81,6 +81,20 @@ public class InterfaceDeclarationTests
     }
 
     [Fact]
+    public void ImplementsGeneric()
+    {
+        var tsd = """export interface SomeType extends Type<CfgType> {}""";
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+        output.HeritageClauses[0].Kind.Should().Be(SyntaxKind.HeritageClause);
+        output.HeritageClauses[0].Types[0].Kind.Should().Be(SyntaxKind.ExpressionWithTypeArguments);
+        output.HeritageClauses[0].Types[0].Expression.Text.Should().Be("Type");
+        output.HeritageClauses[0].Types[0].TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.HeritageClauses[0].Types[0].TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("CfgType");
+    }
+
+    [Fact]
     public void Property()
     {
         var tsd = """
@@ -163,7 +177,8 @@ public class InterfaceDeclarationTests
         var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
 
         output.Name.Text.Should().Be("SomeType");
-        output.Name.Comment.Should().Be("Interface Comment");
+        output.JSDoc.Comment.Should().Be("Interface Comment");
+        output.JSDoc.Kind.Should().Be(SyntaxKind.JSDocComment);
     }
 
     [Fact]

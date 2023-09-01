@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class Constructor : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.Constructor;
+﻿namespace TSDParser.Class;
 
-        public List<Parameter>? Parameters { get; set; }
-    }
+public class Constructor : Node
+{
+    public SyntaxKind Kind => SyntaxKind.Constructor;
+
+    public List<Parameter>? Parameters { get; set; }
 }

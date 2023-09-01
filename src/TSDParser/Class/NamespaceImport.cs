@@ -1,9 +1,8 @@
-﻿namespace TSDParser.Class
-{
-    public class NamespaceImport : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.NamespaceImport;
+﻿namespace TSDParser.Class;
 
-        public Identifier Name { get; set; }
-    }
+public class NamespaceImport : Node
+{
+    public SyntaxKind Kind => SyntaxKind.NamespaceImport;
+
+    public Identifier Name { get; set; }
 }
