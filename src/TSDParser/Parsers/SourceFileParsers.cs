@@ -9,6 +9,7 @@ internal class SourceFileParsers
             .Or<Node>(ImportParsers.ImportDeclaration)
             .Or<Node>(ExportParsers.ExportDeclaration)
             .Or<Node>(FunctionParsers.FunctionDeclaration)
+            .Or<Node>(TypeAliasParsers.TypeAliasDeclaration)
             .Or<object>(Parse.LineEnd.Text())
             .Or<object>(CommonParsers.Comment())
             .Many()
