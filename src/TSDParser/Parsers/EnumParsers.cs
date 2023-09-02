@@ -1,7 +1,4 @@
-﻿using TSDParser.Class;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace TSDParser.Parsers;
+﻿namespace TSDParser.Parsers;
 
 internal class EnumParsers
 {
@@ -13,7 +10,7 @@ internal class EnumParsers
         };
 
     public static Parser<StringLiteral> StringValue =
-        from value in Parse.AnyChar.Many().Text().Contained(Parse.Chars("\"'"), Parse.Chars("\"'"))
+        from value in Parse.CharExcept("\"'").Many().Text().Contained(Parse.Chars("\"'"), Parse.Chars("\"'"))
         select new StringLiteral()
         {
             Text = value
@@ -21,13 +18,16 @@ internal class EnumParsers
 
     /// <summary>
     /// Unknown = 0,
+    /// Test = "test"
     /// </summary>
     public static Parser<EnumMember> EnumMember =
         from comment in CommonParsers.Comment().Optional()
         from name in CommonParsers.Name.Token()
 
         from @equals in Parse.Char('=').Token().Optional()
-        from value in NumericValue.Or<Node>(StringValue).Where(x => @equals.IsDefined && x is not null)
+        from value in NumericValue
+                        .Or<Node>(StringValue)
+                        .Where(x => @equals.IsDefined && x is not null).Optional()
 
         select new EnumMember()
         {
@@ -37,7 +37,7 @@ internal class EnumParsers
             {
                 Text = name
             },
-            Initializer = value
+            Initializer = value.GetOrDefault()
         };
 
 
