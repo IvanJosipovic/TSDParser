@@ -10,5 +10,5 @@ public class EnumDeclaration : Node, jsDoc
 
     public List<Node>? Modifiers { get; set; }
 
-    public JSDocComment JSDoc { get; set; }
+    public JSDocComment? JSDoc { get; set; }
 }

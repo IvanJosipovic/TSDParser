@@ -8,5 +8,5 @@ public class EnumMember : Node, jsDoc
 
     public Node Initializer { get; set; }
 
-    public JSDocComment JSDoc { get; set; }
+    public JSDocComment? JSDoc { get; set; }
 }

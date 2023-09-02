@@ -2,5 +2,5 @@
 
 public interface jsDoc
 {
-    public JSDocComment JSDoc { get; set; }
+    public JSDocComment? JSDoc { get; set; }
 }

@@ -14,5 +14,5 @@ public class InterfaceDeclaration : Node, jsDoc
 
     public List<TypeParameter>? TypeParameters { get; set; }
 
-    public JSDocComment JSDoc { get; set; }
+    public JSDocComment? JSDoc { get; set; }
 }
