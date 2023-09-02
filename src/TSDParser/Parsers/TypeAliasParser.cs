@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace TSDParser.Parsers;
+﻿namespace TSDParser.Parsers;
 
 internal class TypeAliasParsers
 {

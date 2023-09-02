@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace TSDParser.Tests;
+﻿namespace TSDParser.Tests;
 
 public class TypeAliasDeclarationTests
 {
