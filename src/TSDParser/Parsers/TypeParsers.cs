@@ -120,6 +120,21 @@ internal class TypeParsers
             }
         };
 
+    /// <summary>
+    /// { unload?: (isAsync?: boolean) => T; }
+    /// </summary>
+    public static Parser<Node> TypeLiteral =
+        from open_bracket in Parse.Char('{').Token()
+        from property in PropertyParsers.PropertySignature
+        from close_bracket in Parse.Char('}').Token()
+        select new TypeLiteral()
+        {
+            Members = new List<Node>()
+            {
+                property
+            }
+        };
+
     public static Parser<Node> Type = Union
                                         .Or<Node>(Intersection)
                                         .Or(ArrayType)
@@ -131,6 +146,7 @@ internal class TypeParsers
                                         .Or(Parse.String("any").Select(x => new AnyKeyword()))
                                         .Or(Parse.String("boolean").Select(x => new BooleanKeyword()))
                                         .Or(KeyValuePair)
+                                        .Or(TypeLiteral)
                                         .Or(Generic)
                                         .Or(FunctionType)
                                         .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));

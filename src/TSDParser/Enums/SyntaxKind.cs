@@ -2,9 +2,11 @@
 
 public enum SyntaxKind
 {
+    FirstLiteralToken = 9,
     StringLiteral = 11,
     QuestionToken = 58,
     Identifier = 80,
+    ConstKeyword = 87,
     ExportKeyword = 95,
     NullKeyword = 106,
     VoidKeyword = 116,
@@ -37,6 +39,7 @@ public enum SyntaxKind
     FunctionDeclaration = 262,
     ClassDeclaration = 263,
     InterfaceDeclaration = 264,
+    EnumDeclaration = 266,
     ImportDeclaration = 272,
     ImportClause = 273,
     NamespaceImport = 274,
@@ -46,6 +49,7 @@ public enum SyntaxKind
     NamedExports = 279,
     ExportSpecifier = 281,
     HeritageClause = 298,
+    EnumMember = 306,
     SourceFile = 312,
     JSDocComment = 327
 }

@@ -275,4 +275,23 @@ public class TypeTests
         output.As<IntersectionType>().Types[0].Should().BeOfType<StringKeyword>();
         output.As<IntersectionType>().Types[1].Should().BeOfType<NumberKeyword>();
     }
+
+    [Fact]
+    public void TypeLiteral()
+    {
+        var tsd = """{ unload?: (isAsync?: boolean) => T; }""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeLiteral>();
+        output.As<TypeLiteral>().Members[0].Should().BeOfType<PropertySignature>();
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Name.Text.Should().Be("unload");
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.Should().BeOfType<FunctionType>();
+
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Parameters[0].Name.Text.Should().Be("isAsync");
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Parameters[0].QuestionToken.Should().NotBeNull();
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Parameters[0].Type.Should().BeOfType<BooleanKeyword>();
+
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
 }
