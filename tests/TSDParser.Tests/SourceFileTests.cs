@@ -1,6 +1,4 @@
-﻿using TSDParser.Parsers;
-
-namespace TSDParser.Tests;
+﻿namespace TSDParser.Tests;
 
 public class SourceFileTests
 {

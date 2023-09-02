@@ -1,7 +1,6 @@
-﻿namespace TSDParser.Class.Keywords
+﻿namespace TSDParser.Class.Keywords;
+
+public class ConstKeyword : Node
 {
-    public class ConstKeyword : Node
-    {
-        public SyntaxKind Kind => SyntaxKind.ConstKeyword;
-    }
+    public SyntaxKind Kind => SyntaxKind.ConstKeyword;
 }

@@ -39,6 +39,7 @@ public enum SyntaxKind
     FunctionDeclaration = 262,
     ClassDeclaration = 263,
     InterfaceDeclaration = 264,
+    TypeAliasDeclaration = 265,
     EnumDeclaration = 266,
     ImportDeclaration = 272,
     ImportClause = 273,

@@ -1,5 +1,3 @@
-using TSDParser.Parsers;
-
 namespace TSDParser.Tests;
 
 public class TypeTests
