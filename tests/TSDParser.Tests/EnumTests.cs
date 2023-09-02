@@ -39,6 +39,7 @@ namespace TSDParser.Tests
             output.Members[0].Name.Text.Should().Be("Unknown");
             output.Members[0].JSDoc.Comment.Should().Be("Comment1");
             output.Members[0].Initializer.Should().BeOfType<FirstLiteralToken>();
+            output.Members[0].Initializer.As<FirstLiteralToken>().Kind.Should().Be(SyntaxKind.FirstLiteralToken);
             output.Members[0].Initializer.As<FirstLiteralToken>().Text.Should().Be("0");
 
             output.Members[1].Name.Text.Should().Be("NonRetryableStatus");
