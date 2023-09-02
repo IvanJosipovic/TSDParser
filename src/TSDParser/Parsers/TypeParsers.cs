@@ -3,30 +3,6 @@
 internal class TypeParsers
 {
     /// <summary>
-    /// string | number
-    /// </summary>
-    public static Parser<UnionType> Union =
-        from types in Parse.Identifier(Parse.Or(Parse.Letter, Parse.Chars("_[]<>")), Parse.Or(Parse.LetterOrDigit, Parse.Chars("_[]<>"))).Except(Parse.WhiteSpace).Except(Parse.Char('&'))
-                            .DelimitedBy(Parse.Char('|').Token())
-                            .Where(x => x.Count() > 1)
-        select new UnionType()
-        {
-            Types = types.Select(x => Type.Parse(x)).ToList()
-        };
-
-    /// <summary>
-    /// string & number
-    /// </summary>
-    public static Parser<IntersectionType> Intersection =
-        from types in Parse.Identifier(Parse.Or(Parse.Letter, Parse.Chars("_[]<>")), Parse.Or(Parse.LetterOrDigit, Parse.Chars("_[]<>"))).Except(Parse.WhiteSpace).Except(Parse.Char('|'))
-                            .DelimitedBy(Parse.Char('&').Token())
-                            .Where(x => x.Count() > 1)
-        select new IntersectionType()
-        {
-            Types = types.Select(x => Type.Parse(x)).ToList()
-        };
-
-    /// <summary>
     /// One<Two,Three>
     /// </summary>
     public static Parser<TypeReference> Generic =
@@ -135,19 +111,57 @@ internal class TypeParsers
             }
         };
 
-    public static Parser<Node> Type = Union
-                                        .Or<Node>(Intersection)
-                                        .Or(ArrayType)
-                                        .Or(Parse.String("void").Select(x => new VoidKeyword()))
-                                        .Or(Parse.String("null").Select(x => new NullKeyword()))
-                                        .Or(Parse.String("undefined").Select(x => new UndefinedKeyword()))
-                                        .Or(Parse.String("number").Select(x => new NumberKeyword()))
-                                        .Or(Parse.String("string").Select(x => new StringKeyword()))
-                                        .Or(Parse.String("any").Select(x => new AnyKeyword()))
-                                        .Or(Parse.String("boolean").Select(x => new BooleanKeyword()))
-                                        .Or(KeyValuePair)
-                                        .Or(TypeLiteral)
-                                        .Or(Generic)
-                                        .Or(FunctionType)
-                                        .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
+    /// <summary>
+    /// keyof T
+    /// </summary>
+    public static Parser<TypeOperator> TypoOperator =
+        from keyword in Parse.String("keyof").Token()
+        from type in Type
+        select new TypeOperator()
+        {
+            Type = type
+        };
+
+    /// <summary>
+    /// new () => T
+    /// new (test: string) => T
+    /// </summary>
+    public static Parser<ConstructorType> ConstructorType =
+        from keyword in Parse.String("new").Token()
+
+        // FunctionType Params
+        from open_bracket in Parse.Char('(').Token()
+        from parameters in CommonParsers.Parameter.DelimitedBy(Parse.Char(',').Token()).Optional().Token()
+        from close_bracket in Parse.Char(')').Token()
+
+        from arrow in Parse.String("=>").Token()
+
+        from return_type in Type
+
+        select new ConstructorType()
+        {
+            Parameters = parameters.IsDefined ? parameters.Get().ToList(): null,
+            Type = return_type
+        };
+
+
+    public static Parser<Node> TypesNoGroupping = ArrayType
+                                    .Or(Parse.String("void").Select(x => new VoidKeyword()))
+                                    .Or(Parse.String("null").Select(x => new NullKeyword()))
+                                    .Or(Parse.String("undefined").Select(x => new UndefinedKeyword()))
+                                    .Or(Parse.String("number").Select(x => new NumberKeyword()))
+                                    .Or(Parse.String("string").Select(x => new StringKeyword()))
+                                    .Or(Parse.String("any").Select(x => new AnyKeyword()))
+                                    .Or(Parse.String("boolean").Select(x => new BooleanKeyword()))
+                                    .Or(KeyValuePair)
+                                    .Or(TypeLiteral)
+                                    .Or(Generic)
+                                    .Or(FunctionType)
+                                    .Or(TypoOperator)
+                                    .Or(ConstructorType)
+                                    .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
+
+    public static Parser<Node> Type = UnionParsers.Union
+                                        .Or<Node>(IntersectionParsers.Intersection)
+                                        .Or(TypesNoGroupping);
 }

@@ -60,4 +60,9 @@ internal class CommonParsers
             Constraint = extended_type.IsDefined ? extended_type.Get() : null,
             Default = default_type.IsDefined ? default_type.Get() : null
         };
+
+    public static Parser<object> Debug =
+        from node in Parse.AnyChar.Many().Text()
+        select new Exception("Unable to Parse " + node);
+
 }

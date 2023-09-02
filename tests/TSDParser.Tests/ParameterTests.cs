@@ -1,5 +1,3 @@
-using TSDParser.Parsers;
-
 namespace TSDParser.Tests;
 
 public class ParameterTests
@@ -59,5 +57,15 @@ public class ParameterTests
         output.Type.As<FunctionType>().Parameters[1].Should().BeOfType<Parameter>();
         output.Type.As<FunctionType>().Parameters[1].Name.Text.Should().Be("param2");
         output.Type.As<FunctionType>().Parameters[1].Type.Should().BeOfType<NumberKeyword>();
+    }
+
+    [Fact]
+    public void Unions()
+    {
+        var tsd = """evtNamespace?: string | string[] | null""";
+        var output = CommonParsers.Parameter.Parse(tsd);
+
+        output.Name.Text.Should().Be("evtNamespace");
+
     }
 }

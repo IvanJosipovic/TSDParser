@@ -1,5 +1,3 @@
-using TSDParser.Parsers;
-
 namespace TSDParser.Tests;
 
 public class TypeTests
@@ -137,13 +135,31 @@ public class TypeTests
     [Fact]
     public void GenericMultiple()
     {
+        var tsd = """One<Two, Three>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("One");
+
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("Two");
+
+        output.As<TypeReference>().TypeArguments[1].Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("Three");
+    }
+
+    [Fact]
+    public void GenericMultipleNoSpace()
+    {
         var tsd = """One<Two,Three>""";
         var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<TypeReference>();
         output.As<TypeReference>().TypeName.Text.Should().Be("One");
+
         output.As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
         output.As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("Two");
+
         output.As<TypeReference>().TypeArguments[1].Should().BeOfType<TypeReference>();
         output.As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("Three");
     }
@@ -180,7 +196,7 @@ public class TypeTests
     public void Union()
     {
         var tsd = """string | number""";
-        var output = TypeParsers.Type.Parse(tsd);
+        var output = UnionParsers.Union.Parse(tsd);
 
         output.Should().BeOfType<UnionType>();
         output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
@@ -293,5 +309,87 @@ public class TypeTests
 
         output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Type.Should().BeOfType<TypeReference>();
         output.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.As<FunctionType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void UnionGenericMulti()
+    {
+        var tsd = """V | Type<V, T>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<UnionType>();
+        output.As<UnionType>().Types[0].Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[0].As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<UnionType>().Types[1].Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[1].As<TypeReference>().TypeName.Text.Should().Be("Type");
+
+        output.As<UnionType>().Types[1].As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[1].As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<UnionType>().Types[1].As<TypeReference>().TypeArguments[1].Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[1].As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void IntersectionGenericMulti()
+    {
+        var tsd = """V & Type<V, T>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IntersectionType>();
+        output.As<IntersectionType>().Types[0].Should().BeOfType<TypeReference>();
+        output.As<IntersectionType>().Types[0].As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<IntersectionType>().Types[1].Should().BeOfType<TypeReference>();
+        output.As<IntersectionType>().Types[1].As<TypeReference>().TypeName.Text.Should().Be("Type");
+
+        output.As<IntersectionType>().Types[1].As<TypeReference>().TypeArguments[0].Should().BeOfType<TypeReference>();
+        output.As<IntersectionType>().Types[1].As<TypeReference>().TypeArguments[0].As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<IntersectionType>().Types[1].As<TypeReference>().TypeArguments[1].Should().BeOfType<TypeReference>();
+        output.As<IntersectionType>().Types[1].As<TypeReference>().TypeArguments[1].As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void TypeOperator()
+    {
+        var tsd = """keyof T""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeOperator>();
+        output.Kind.Should().Be(SyntaxKind.TypeOperator);
+
+        output.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void ConstructorType()
+    {
+        var tsd = """new () => T""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<ConstructorType>();
+        output.Kind.Should().Be(SyntaxKind.ConstructorType);
+
+        output.As<ConstructorType>().Type.Should().BeOfType<TypeReference>();
+        output.As<ConstructorType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void ConstructorTypeParameter()
+    {
+        var tsd = """new (test: string) => T""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<ConstructorType>();
+        output.Kind.Should().Be(SyntaxKind.ConstructorType);
+
+        output.As<ConstructorType>().Parameters[0].Name.Text.Should().Be("test");
+        output.As<ConstructorType>().Parameters[0].Type.Should().BeOfType<StringKeyword>();
+
+        output.As<ConstructorType>().Type.Should().BeOfType<TypeReference>();
+        output.As<ConstructorType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
     }
 }

@@ -14,5 +14,5 @@ public class MethodSignature : Node, jsDoc
 
     public QuestionToken? QuestionToken { get; set; }
 
-    public JSDocComment JSDoc { get; set; }
+    public JSDocComment? JSDoc { get; set; }
 }

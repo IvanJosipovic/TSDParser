@@ -1,5 +1,3 @@
-using TSDParser.Parsers;
-
 namespace TSDParser.Tests;
 
 public class FunctionDeclarationTests
@@ -39,6 +37,7 @@ public class FunctionDeclarationTests
 
         output.Parameters[0].Name.Text.Should().Be("target");
         output.Parameters[0].Type.Should().BeOfType<TypeLiteral>();
+
         output.Parameters[0].Type.As<TypeLiteral>().Members[0].Should().BeOfType<PropertySignature>();
         output.Parameters[0].Type.As<TypeLiteral>().Members[0].As<PropertySignature>().Name.Text.Should().Be("unload");
         output.Parameters[0].Type.As<TypeLiteral>().Members[0].As<PropertySignature>().Type.Should().BeOfType<FunctionType>();
@@ -53,5 +52,17 @@ public class FunctionDeclarationTests
 
         output.Type.Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void Test()
+    {
+        var tsd = """
+            function addPageHideEventListener(excludeEvents?: string[] | null, evtNamespace?: string | string[] | null): boolean;
+            """;
+        var output = FunctionParsers.FunctionDeclaration.Parse(tsd);
+
+        //output.Name.Text.Should().Be("myFunc");
+
     }
 }
