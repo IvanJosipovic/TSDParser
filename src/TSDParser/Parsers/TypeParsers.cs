@@ -163,7 +163,6 @@ internal class TypeParsers
             }
         };
 
-
     public static Parser<Node> TypesNoGroupping = ArrayType
                                     .Or(Parse.String("void").Select(x => new VoidKeyword()))
                                     .Or(Parse.String("null").Select(x => new NullKeyword()))
