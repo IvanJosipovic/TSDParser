@@ -1,4 +1,6 @@
-﻿namespace TSDParser.Parsers;
+﻿using TSDParser.Parsers.Types;
+
+namespace TSDParser.Parsers;
 
 internal class TypeParsers
 {
@@ -167,9 +169,12 @@ internal class TypeParsers
     /// V[T]
     /// </summary>
     public static Parser<IndexedAccessType> IndexedAccessType =
-        from type in Type
+        from lookAhead_start in Parse.Chars("]").Preview()
+        from lookAhead_end in Parse.Chars("]").Preview()
+
+        from type in TypeParsers.Type.Where(x => lookAhead_start.IsDefined && lookAhead_end.IsDefined && x is not null)
         from open_bracket in Parse.Char('[').Token()
-        from type2 in Type
+        from type2 in TypeParsers.Type
         from close_bracket in Parse.Char(']').Token()
 
         select new IndexedAccessType()
@@ -193,7 +198,7 @@ internal class TypeParsers
                                     .Or(TypoOperator)
                                     .Or(ConstructorType)
                                     .Or(TupleType)
-                                    //.Or(IndexedAccessType)
+                                    .Or(IndexedAccessType)
                                     .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
 
     public static Parser<Node> Type = UnionParsers.Union

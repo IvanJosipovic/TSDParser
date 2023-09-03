@@ -1,4 +1,4 @@
-﻿namespace TSDParser.Parsers;
+﻿namespace TSDParser.Parsers.Types;
 
 internal static class IntersectionParsers
 {

@@ -1,3 +1,5 @@
+using TSDParser.Parsers.Types;
+
 namespace TSDParser.Tests;
 
 public class TypeTests
@@ -196,7 +198,7 @@ public class TypeTests
     public void Union()
     {
         var tsd = """string | number""";
-        var output = UnionParsers.Union.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<UnionType>();
         output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
@@ -406,7 +408,7 @@ public class TypeTests
         output.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("V");
 
         output.As<IndexedAccessType>().IndexType.Should().BeOfType<TypeReference>();
-        output.As<IndexedAccessType>().IndexType.As<TypeReference>().TypeName.Text.Should().Be("V");
+        output.As<IndexedAccessType>().IndexType.As<TypeReference>().TypeName.Text.Should().Be("T");
     }
 
     //[Fact]
