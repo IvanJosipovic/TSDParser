@@ -1,6 +1,6 @@
 ﻿namespace TSDParser.Parsers.Types;
 
-public static class IndexedAccessTypeParser
+internal static class IndexedAccessTypeParser
 {
     /// <summary>
     /// V[T]

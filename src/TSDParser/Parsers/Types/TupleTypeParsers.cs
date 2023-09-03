@@ -2,7 +2,6 @@
 
 internal static class TupleTypeParsers
 {
-
     /// <summary>
     /// [T, V]
     /// </summary>
