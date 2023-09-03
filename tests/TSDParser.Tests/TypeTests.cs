@@ -1,3 +1,5 @@
+using TSDParser.Parsers.Types;
+
 namespace TSDParser.Tests;
 
 public class TypeTests
@@ -409,26 +411,29 @@ public class TypeTests
         output.As<IndexedAccessType>().IndexType.As<TypeReference>().TypeName.Text.Should().Be("T");
     }
 
-    //[Fact]
-    //public void MappedType()
-    //{
-    //    var tsd = """{ [key in keyof E]: E[keyof E];}""";
-    //    var output = TypeParsers.Type.Parse(tsd);
+    [Fact]
+    public void MappedType()
+    {
+        var tsd = """{ [key in keyof E]: E[keyof E];}""";
+        var output = TypeParsers.Type.Parse(tsd);
 
-    //    output.Should().BeOfType<MappedType>();
-    //    output.As<MappedType>().TypeParameter.Name.Text.Should().Be("key");
+        output.Should().BeOfType<MappedType>();
+        output.As<MappedType>().Kind.Should().Be(SyntaxKind.MappedType);
 
-    //    output.As<MappedType>().TypeParameter.Constraint.Should().BeOfType<TypeOperator>();
-    //    output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
-    //    output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.As<TypeReference>().TypeName.Should().Be("E");
+        output.As<MappedType>().TypeParameter.Name.Text.Should().Be("key");
+        output.As<MappedType>().TypeParameter.Constraint.Should().BeOfType<TypeOperator>();
+        output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("E");
 
-    //    output.As<MappedType>().Type.Should().BeOfType<IndexedAccessType>();
-    //    output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
-    //    output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("E");
+        output.As<MappedType>().Type.Should().BeOfType<IndexedAccessType>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("E");
 
-    //    //output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Type.Should().BeOfType<TypeReference>();
-    //    //output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Type.As<TypeReference>().TypeName.Text.Should().Be("E");
-    //}
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Should().BeOfType<TypeOperator>();
+
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("E");
+    }
 
     [Fact]
     public void TupleType()

@@ -6,7 +6,7 @@ internal static class IntersectionParsers
     /// string & number
     /// </summary>
     public static Parser<IntersectionType> Intersection =
-        from types in TypeParsers.TypesNoGrouping
+        from types in TypeParsers.BasicTypes
                                     .DelimitedBy(Parse.Char('&').Token())
                                     .Where(x => x.Count() > 1)
         select new IntersectionType()
