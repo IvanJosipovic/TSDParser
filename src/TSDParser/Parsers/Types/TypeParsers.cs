@@ -1,6 +1,4 @@
-﻿using TSDParser.Parsers.Types;
-
-namespace TSDParser.Parsers;
+﻿namespace TSDParser.Parsers;
 
 internal class TypeParsers
 {
@@ -169,17 +167,14 @@ internal class TypeParsers
     /// V[T]
     /// </summary>
     public static Parser<IndexedAccessType> IndexedAccessType =
-        from lookAhead_start in Parse.Chars("]").Preview()
-        from lookAhead_end in Parse.Chars("]").Preview()
-
-        from type in TypeParsers.Type.Where(x => lookAhead_start.IsDefined && lookAhead_end.IsDefined && x is not null)
+        from type in CommonParsers.Name
         from open_bracket in Parse.Char('[').Token()
-        from type2 in TypeParsers.Type
+        from type2 in Type
         from close_bracket in Parse.Char(']').Token()
 
         select new IndexedAccessType()
         {
-            ObjectType = type,
+            ObjectType = Type.Parse(type),
             IndexType = type2
         };
 
