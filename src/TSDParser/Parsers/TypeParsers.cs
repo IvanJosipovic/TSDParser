@@ -164,6 +164,7 @@ internal class TypeParsers
         };
 
     public static Parser<Node> TypesNoGroupping = ArrayType
+    public static Parser<Node> TypesNoGrouping = ArrayType
                                     .Or(Parse.String("void").Select(x => new VoidKeyword()))
                                     .Or(Parse.String("null").Select(x => new NullKeyword()))
                                     .Or(Parse.String("undefined").Select(x => new UndefinedKeyword()))
@@ -182,5 +183,5 @@ internal class TypeParsers
 
     public static Parser<Node> Type = UnionParsers.Union
                                         .Or<Node>(IntersectionParsers.Intersection)
-                                        .Or(TypesNoGroupping);
+                                        .Or(TypesNoGrouping);
 }
