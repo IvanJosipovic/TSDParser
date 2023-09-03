@@ -35,6 +35,7 @@ public enum SyntaxKind
     ConstructorType = 185,
     TypeLiteral = 187,
     ArrayType = 188,
+    TupleType = 189,
     UnionType = 192,
     IntersectionType = 193,
     ExpressionWithTypeArguments = 233,
