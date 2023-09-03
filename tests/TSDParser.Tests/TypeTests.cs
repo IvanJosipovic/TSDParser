@@ -392,4 +392,20 @@ public class TypeTests
         output.As<ConstructorType>().Type.Should().BeOfType<TypeReference>();
         output.As<ConstructorType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
     }
+
+    [Fact]
+    public void TupleType()
+    {
+        var tsd = """[E, V]""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TupleType>();
+        output.Kind.Should().Be(SyntaxKind.TupleType);
+
+        output.As<TupleType>().Elements[0].Should().BeOfType<TypeReference>();
+        output.As<TupleType>().Elements[0].As<TypeReference>().TypeName.Text.Should().Be("E");
+
+        output.As<TupleType>().Elements[1].Should().BeOfType<TypeReference>();
+        output.As<TupleType>().Elements[1].As<TypeReference>().TypeName.Text.Should().Be("V");
+    }
 }

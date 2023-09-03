@@ -144,6 +144,25 @@ internal class TypeParsers
             Type = return_type
         };
 
+    /// <summary>
+    /// [T, V]
+    /// </summary>
+    public static Parser<TupleType> TupleType =
+        from open_bracket in Parse.Char('[').Token()
+        from type in Type
+        from comma in Parse.Char(',').Token()
+        from type2 in Type
+        from close_bracket in Parse.Char(']').Token()
+
+        select new TupleType()
+        {
+            Elements = new List<Node>()
+            {
+                type,
+                type2
+            }
+        };
+
 
     public static Parser<Node> TypesNoGroupping = ArrayType
                                     .Or(Parse.String("void").Select(x => new VoidKeyword()))
@@ -159,6 +178,7 @@ internal class TypeParsers
                                     .Or(FunctionType)
                                     .Or(TypoOperator)
                                     .Or(ConstructorType)
+                                    .Or(TupleType)
                                     .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
 
     public static Parser<Node> Type = UnionParsers.Union
