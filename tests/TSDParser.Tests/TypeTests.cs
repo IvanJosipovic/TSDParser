@@ -394,6 +394,43 @@ public class TypeTests
     }
 
     [Fact]
+    public void IndexedAccessType()
+    {
+        var tsd = """V[T]""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IndexedAccessType>();
+        output.Kind.Should().Be(SyntaxKind.IndexedAccessType);
+
+        output.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
+        output.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<IndexedAccessType>().IndexType.Should().BeOfType<TypeReference>();
+        output.As<IndexedAccessType>().IndexType.As<TypeReference>().TypeName.Text.Should().Be("V");
+    }
+
+    //[Fact]
+    //public void MappedType()
+    //{
+    //    var tsd = """{ [key in keyof E]: E[keyof E];}""";
+    //    var output = TypeParsers.Type.Parse(tsd);
+
+    //    output.Should().BeOfType<MappedType>();
+    //    output.As<MappedType>().TypeParameter.Name.Text.Should().Be("key");
+
+    //    output.As<MappedType>().TypeParameter.Constraint.Should().BeOfType<TypeOperator>();
+    //    output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+    //    output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.As<TypeReference>().TypeName.Should().Be("E");
+
+    //    output.As<MappedType>().Type.Should().BeOfType<IndexedAccessType>();
+    //    output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
+    //    output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("E");
+
+    //    //output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Type.Should().BeOfType<TypeReference>();
+    //    //output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Type.As<TypeReference>().TypeName.Text.Should().Be("E");
+    //}
+
+    [Fact]
     public void TupleType()
     {
         var tsd = """[E, V]""";

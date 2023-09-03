@@ -163,7 +163,21 @@ internal class TypeParsers
             }
         };
 
-    public static Parser<Node> TypesNoGroupping = ArrayType
+    /// <summary>
+    /// V[T]
+    /// </summary>
+    public static Parser<IndexedAccessType> IndexedAccessType =
+        from type in Type
+        from open_bracket in Parse.Char('[').Token()
+        from type2 in Type
+        from close_bracket in Parse.Char(']').Token()
+
+        select new IndexedAccessType()
+        {
+            ObjectType = type,
+            IndexType = type2
+        };
+
     public static Parser<Node> TypesNoGrouping = ArrayType
                                     .Or(Parse.String("void").Select(x => new VoidKeyword()))
                                     .Or(Parse.String("null").Select(x => new NullKeyword()))
@@ -179,6 +193,7 @@ internal class TypeParsers
                                     .Or(TypoOperator)
                                     .Or(ConstructorType)
                                     .Or(TupleType)
+                                    //.Or(IndexedAccessType)
                                     .Or(CommonParsers.Name.Select(x => new TypeReference() { TypeName = new Identifier() { Text = x } }));
 
     public static Parser<Node> Type = UnionParsers.Union

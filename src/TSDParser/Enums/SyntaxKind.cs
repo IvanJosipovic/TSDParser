@@ -38,6 +38,8 @@ public enum SyntaxKind
     TupleType = 189,
     UnionType = 192,
     IntersectionType = 193,
+    IndexedAccessType = 199,
+    MappedType = 200,
     ExpressionWithTypeArguments = 233,
     FunctionDeclaration = 262,
     ClassDeclaration = 263,
