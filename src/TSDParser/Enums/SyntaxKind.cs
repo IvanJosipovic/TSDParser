@@ -46,6 +46,7 @@ public enum SyntaxKind
     InterfaceDeclaration = 264,
     TypeAliasDeclaration = 265,
     EnumDeclaration = 266,
+    NamespaceExportDeclaration = 270,
     ImportDeclaration = 272,
     ImportClause = 273,
     NamespaceImport = 274,
