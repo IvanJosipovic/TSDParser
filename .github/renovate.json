@@ -3,12 +3,8 @@
   "enabled": true,
   "timezone": "America/Vancouver",
   "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate Dashboard",
   "semanticCommits": "enabled",
-  "suppressNotifications": ["prIgnoreNotification"],
-  "rebaseWhen": "conflicted",
   "assignees": ["@ivanjosipovic"],
-  "extends": ["config:base"],
   "platformAutomerge": true,
   "ignorePaths": [
     "**/docs/**"
@@ -20,8 +16,7 @@
       "automerge": true,
       "extends": [":semanticCommitTypeAll(fix)"],
       "matchFileNames": [
-        "src/**",
-        "global.json"
+        "src/**"
       ]
     },
     {
@@ -30,7 +25,8 @@
       "automerge": true,
       "matchFileNames": [
         "tests/**",
-        "benchmarks/**"
+        "benchmarks/**",
+        "global.json"
       ]
     }
   ]

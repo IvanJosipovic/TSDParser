@@ -53,16 +53,4 @@ public class FunctionDeclarationTests
         output.Type.Should().BeOfType<TypeReference>();
         output.Type.As<TypeReference>().TypeName.Text.Should().Be("T");
     }
-
-    [Fact]
-    public void Test()
-    {
-        var tsd = """
-            function addPageHideEventListener(excludeEvents?: string[] | null, evtNamespace?: string | string[] | null): boolean;
-            """;
-        var output = FunctionParsers.FunctionDeclaration.Parse(tsd);
-
-        //output.Name.Text.Should().Be("myFunc");
-
-    }
 }

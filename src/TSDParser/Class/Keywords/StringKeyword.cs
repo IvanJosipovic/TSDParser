@@ -1,4 +1,4 @@
-﻿namespace TSDParser.Class;
+﻿namespace TSDParser.Class.Keywords;
 
 public class StringKeyword : Node
 {

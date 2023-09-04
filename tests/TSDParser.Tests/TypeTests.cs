@@ -1,3 +1,5 @@
+using TSDParser.Parsers.Types;
+
 namespace TSDParser.Tests;
 
 public class TypeTests
@@ -196,7 +198,7 @@ public class TypeTests
     public void Union()
     {
         var tsd = """string | number""";
-        var output = UnionParsers.Union.Parse(tsd);
+        var output = TypeParsers.Type.Parse(tsd);
 
         output.Should().BeOfType<UnionType>();
         output.As<UnionType>().Kind.Should().Be(SyntaxKind.UnionType);
@@ -391,5 +393,99 @@ public class TypeTests
 
         output.As<ConstructorType>().Type.Should().BeOfType<TypeReference>();
         output.As<ConstructorType>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void IndexedAccessType()
+    {
+        var tsd = """V[T]""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<IndexedAccessType>();
+        output.Kind.Should().Be(SyntaxKind.IndexedAccessType);
+
+        output.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
+        output.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("V");
+
+        output.As<IndexedAccessType>().IndexType.Should().BeOfType<TypeReference>();
+        output.As<IndexedAccessType>().IndexType.As<TypeReference>().TypeName.Text.Should().Be("T");
+    }
+
+    [Fact]
+    public void MappedType()
+    {
+        var tsd = """{ [key in keyof E]: E[keyof E];}""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<MappedType>();
+        output.As<MappedType>().Kind.Should().Be(SyntaxKind.MappedType);
+
+        output.As<MappedType>().TypeParameter.Name.Text.Should().Be("key");
+        output.As<MappedType>().TypeParameter.Constraint.Should().BeOfType<TypeOperator>();
+        output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().TypeParameter.Constraint.As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("E");
+
+        output.As<MappedType>().Type.Should().BeOfType<IndexedAccessType>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().ObjectType.As<TypeReference>().TypeName.Text.Should().Be("E");
+
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.Should().BeOfType<TypeOperator>();
+
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<MappedType>().Type.As<IndexedAccessType>().IndexType.As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("E");
+    }
+
+    [Fact]
+    public void TupleType()
+    {
+        var tsd = """[E, V]""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TupleType>();
+        output.Kind.Should().Be(SyntaxKind.TupleType);
+
+        output.As<TupleType>().Elements[0].Should().BeOfType<TypeReference>();
+        output.As<TupleType>().Elements[0].As<TypeReference>().TypeName.Text.Should().Be("E");
+
+        output.As<TupleType>().Elements[1].Should().BeOfType<TypeReference>();
+        output.As<TupleType>().Elements[1].As<TypeReference>().TypeName.Text.Should().Be("V");
+    }
+
+    [Fact]
+    public void TypeOperatorUnion()
+    {
+        var tsd = """keyof T | keyof C""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<UnionType>();
+
+        output.As<UnionType>().Types[0].Should().BeOfType<TypeOperator>();
+        output.As<UnionType>().Types[0].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[0].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+
+
+        output.As<UnionType>().Types[1].Should().BeOfType<TypeOperator>();
+        output.As<UnionType>().Types[1].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[1].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("C");
+    }
+
+    [Fact]
+    public void ArrayUnion()
+    {
+        var tsd = """Array<keyof T | keyof C>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("Array");
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<UnionType>();
+
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].Should().BeOfType<TypeOperator>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+
+
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].Should().BeOfType<TypeOperator>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("C");
     }
 }
