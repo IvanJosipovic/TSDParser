@@ -524,6 +524,15 @@ export declare function createCookieMgr(rootConfig?: IConfiguration, logger?: ID
 export declare function createDynamicConfig<T = IConfiguration>(config: T, defaultConfig?: IConfigDefaults<T>, logger?: IDiagnosticLogger, inPlace?: boolean): IDynamicConfigHandler<T>;
 
 /**
+ * Create an enum style object which has both the key => value and value => key mappings
+ * @param values - The values to populate on the new object
+ * @returns
+ */
+export declare const createEnumStyle: <E>(values: {
+    [key in keyof E]: E[keyof E];
+}) => EnumValue<E>;
+
+/**
  * Creates a new Telemetry Item context with the current config, core and plugin execution chain
  * @param plugins - The plugin instances that will be executed
  * @param config - The current config
@@ -552,6 +561,19 @@ export declare function createUnloadHandlerContainer(): IUnloadHandlerContainer;
  * @returns A new IUnloadHookContainer instance
  */
 export declare function createUnloadHookContainer(): IUnloadHookContainer;
+
+/**
+ * Create a 2 index map that maps an enum's key and value to the defined map value, X["key"] => mapValue and X[0] => mapValue.
+ * Generic values
+ * - E = the const enum type (typeof eRequestHeaders);
+ * - V = Identifies the valid values for the keys, this should include both the enum numeric and string key of the type. The
+ * resulting "Value" of each entry identifies the valid values withing the assignments.
+ * @param values - The values to populate on the new object
+ * @returns
+ */
+export declare const createValueMap: <E, V = E>(values: {
+    [key in keyof E]: [E[keyof E], V[keyof V]];
+}) => V;
 
 export { dateNow }
 
@@ -815,6 +837,11 @@ export declare function eventOff<T>(target: T, eventName: string, handlerRef: an
  * @returns True if the function was bound successfully to the event, otherwise false
  */
 export declare function eventOn<T>(target: T, eventName: string, handlerRef: any, evtNamespace?: string | string[] | null, useCapture?: boolean): boolean;
+
+/**
+ * The EventsDiscardedReason enumeration contains a set of values that specify the reason for discarding an event.
+ */
+export declare const EventsDiscardedReason: EnumValue<typeof eEventsDiscardedReason>;
 
 export declare type EventsDiscardedReason = number | eEventsDiscardedReason;
 
@@ -1128,6 +1155,18 @@ export declare interface IBaseProcessingContext {
      */
     getCfg: () => IConfiguration;
     /**
+     * Gets the named extension config
+     */
+    getExtCfg: <T>(identifier: string, defaultValue?: IConfigDefaults<T>) => T;
+    /**
+     * Gets the named config from either the named identifier extension or core config if neither exist then the
+     * default value is returned
+     * @param identifier - The named extension identifier
+     * @param field - The config field name
+     * @param defaultValue - The default value to return if no defined config exists
+     */
+    getConfig: (identifier: string, field: string, defaultValue?: number | string | boolean | string[] | RegExp[] | Function) => number | string | boolean | string[] | RegExp[] | Function;
+    /**
      * Helper to allow plugins to check and possibly shortcut executing code only
      * required if there is a nextPlugin
      */
@@ -1140,6 +1179,27 @@ export declare interface IBaseProcessingContext {
      * Helper to set the next plugin proxy
      */
     setNext: (nextCtx: ITelemetryPluginChain) => void;
+    /**
+     * Synchronously iterate over the context chain running the callback for each plugin, once
+     * every plugin has been executed via the callback, any associated onComplete will be called.
+     * @param callback - The function call for each plugin in the context chain
+     */
+    iterate: <T extends ITelemetryPlugin = ITelemetryPlugin>(callback: (plugin: T) => void) => void;
+    /**
+     * Set the function to call when the current chain has executed all processNext or unloadNext items.
+     * @param onComplete - The onComplete to call
+     * @param that - The "this" value to use for the onComplete call, if not provided or undefined defaults to the current context
+     * @param args - Any additional arguments to pass to the onComplete function
+     */
+    onComplete: (onComplete: () => void, that?: any, ...args: any[]) => void;
+    /**
+     * Create a new context using the core and config from the current instance, returns a new instance of the same type
+     * @param plugins - The execution order to process the plugins, if null or not supplied
+     *                  then the current execution order will be copied.
+     * @param startAt - The plugin to start processing from, if missing from the execution
+     *                  order then the next plugin will be NOT set.
+     */
+    createNew: (plugins?: IPlugin[] | ITelemetryPluginChain, startAt?: IPlugin) => IBaseProcessingContext;
 }
 
 /**
