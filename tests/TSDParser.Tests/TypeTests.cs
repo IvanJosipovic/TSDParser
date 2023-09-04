@@ -450,4 +450,42 @@ public class TypeTests
         output.As<TupleType>().Elements[1].Should().BeOfType<TypeReference>();
         output.As<TupleType>().Elements[1].As<TypeReference>().TypeName.Text.Should().Be("V");
     }
+
+    [Fact]
+    public void TypeOperatorUnion()
+    {
+        var tsd = """keyof T | keyof C""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<UnionType>();
+
+        output.As<UnionType>().Types[0].Should().BeOfType<TypeOperator>();
+        output.As<UnionType>().Types[0].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[0].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+
+
+        output.As<UnionType>().Types[1].Should().BeOfType<TypeOperator>();
+        output.As<UnionType>().Types[1].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<UnionType>().Types[1].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("C");
+    }
+
+    [Fact]
+    public void ArrayUnion()
+    {
+        var tsd = """Array<keyof T | keyof C>""";
+        var output = TypeParsers.Type.Parse(tsd);
+
+        output.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeName.Text.Should().Be("Array");
+        output.As<TypeReference>().TypeArguments[0].Should().BeOfType<UnionType>();
+
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].Should().BeOfType<TypeOperator>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[0].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("T");
+
+
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].Should().BeOfType<TypeOperator>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].As<TypeOperator>().Type.Should().BeOfType<TypeReference>();
+        output.As<TypeReference>().TypeArguments[0].As<UnionType>().Types[1].As<TypeOperator>().Type.As<TypeReference>().TypeName.Text.Should().Be("C");
+    }
 }
