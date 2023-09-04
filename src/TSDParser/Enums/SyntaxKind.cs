@@ -41,6 +41,7 @@ public enum SyntaxKind
     IndexedAccessType = 199,
     MappedType = 200,
     ExpressionWithTypeArguments = 233,
+    FirstStatement = 243,
     FunctionDeclaration = 262,
     ClassDeclaration = 263,
     InterfaceDeclaration = 264,

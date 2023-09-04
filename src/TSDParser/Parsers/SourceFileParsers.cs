@@ -14,6 +14,7 @@ internal class SourceFileParsers
             .Or<Node>(NamespaceExportDeclarationParser.NamespaceExportDeclaration)
             .Or<object>(Parse.LineEnd.Text())
             .Or<object>(CommonParsers.Comment())
+            .Or(CommonParsers.Debug)
             .Many()
             .Optional()
         select new SourceFile()
