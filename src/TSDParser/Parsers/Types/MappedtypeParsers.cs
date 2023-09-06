@@ -30,7 +30,7 @@ internal static class MappedTypeParsers
         {
             TypeParameter = new TypeParameter()
             {
-                Name  = new Identifier()
+                Name = new Identifier()
                 {
                     Text = name
                 },
