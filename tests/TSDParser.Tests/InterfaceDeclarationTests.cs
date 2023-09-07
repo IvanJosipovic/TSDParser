@@ -129,6 +129,26 @@ public class InterfaceDeclarationTests
     }
 
     [Fact]
+    public void MultiPropertyLineBrakes()
+    {
+        var tsd = """
+            export interface SomeType {
+                name: string;
+                name2: string;
+            }
+            """;
+        var output = InterfaceParsers.InterfaceDeclaration.Parse(tsd);
+
+        output.Name.Text.Should().Be("SomeType");
+
+        output.Statements[0].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[0].As<Class.PropertySignature>().Name.Text.Should().Be("name");
+
+        output.Statements[1].Should().BeOfType<Class.PropertySignature>();
+        output.Statements[1].As<Class.PropertySignature>().Name.Text.Should().Be("name2");
+    }
+
+    [Fact]
     public void FunctionProperty()
     {
         var tsd = """

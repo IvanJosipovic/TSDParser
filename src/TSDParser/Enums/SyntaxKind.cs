@@ -42,6 +42,8 @@ public enum SyntaxKind
     MappedType = 200,
     ExpressionWithTypeArguments = 233,
     FirstStatement = 243,
+    VariableDeclaration = 260,
+    VariableDeclarationList = 261,
     FunctionDeclaration = 262,
     ClassDeclaration = 263,
     InterfaceDeclaration = 264,

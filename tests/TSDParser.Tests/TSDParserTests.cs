@@ -17,6 +17,19 @@ public class TSDParserTests
     }
 
     [Fact]
+    public void Test2()
+    {
+        var parsed = TSDParser.ParseDefinition("""
+            export interface SomeType {
+              name: string;
+              length: number;
+            }
+
+            """);
+        parsed.Statements[0].Kind.Should().Be(SyntaxKind.InterfaceDeclaration);
+    }
+
+    [Fact]
     public void TestFullTSD()
     {
         var parsed = TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-web.d.ts"));

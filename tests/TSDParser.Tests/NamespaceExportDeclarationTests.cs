@@ -1,6 +1,6 @@
 ﻿namespace TSDParser.Tests;
 
-public class NamespaceExportDeclaration
+public class NamespaceExportDeclarationTests
 {
     [Fact]
     public void Namespace()
