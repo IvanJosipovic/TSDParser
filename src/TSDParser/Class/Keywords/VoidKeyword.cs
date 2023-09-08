@@ -2,5 +2,4 @@
 
 public class VoidKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.VoidKeyword;
 }

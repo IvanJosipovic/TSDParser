@@ -1,9 +1,7 @@
 ﻿namespace TSDParser.Class;
 
-public class ClassDeclaration : Node, jsDoc
+public class ClassDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ClassDeclaration;
-
     public Identifier Name { get; set; }
 
     public List<Node> Members { get; set; }
@@ -14,5 +12,5 @@ public class ClassDeclaration : Node, jsDoc
 
     public List<TypeParameter>? TypeParameters { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

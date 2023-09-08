@@ -1,9 +1,9 @@
-﻿namespace TSDParser.Class;
+﻿using System.Text.Json.Serialization;
 
-public class MethodSignature : Node, jsDoc
+namespace TSDParser.Class;
+
+public class MethodSignature : Node
 {
-    public SyntaxKind Kind => SyntaxKind.MethodSignature;
-
     public Identifier Name { get; set; }
 
     public Node Type { get; set; }
@@ -14,5 +14,5 @@ public class MethodSignature : Node, jsDoc
 
     public QuestionToken? QuestionToken { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

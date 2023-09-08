@@ -2,5 +2,4 @@
 
 public class UndefinedKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.UndefinedKeyword;
 }

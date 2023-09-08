@@ -2,7 +2,5 @@
 
 public class ImportClause : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ImportClause;
-
-    public List<Node> NamedBindings { get; set; }
+    public Node NamedBindings { get; set; }
 }

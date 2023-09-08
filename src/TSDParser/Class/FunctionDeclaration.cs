@@ -1,9 +1,7 @@
 ﻿namespace TSDParser.Class;
 
-public class FunctionDeclaration : Node, jsDoc
+public class FunctionDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.FunctionDeclaration;
-
     public Identifier Name { get; set; }
 
     public Node Type { get; set; }
@@ -14,5 +12,5 @@ public class FunctionDeclaration : Node, jsDoc
 
     public List<Node> Modifiers { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

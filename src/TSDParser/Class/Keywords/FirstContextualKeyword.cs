@@ -2,5 +2,4 @@
 
 public class FirstContextualKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.FirstContextualKeyword;
 }

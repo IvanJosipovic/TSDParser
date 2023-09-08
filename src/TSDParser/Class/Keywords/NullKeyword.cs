@@ -2,5 +2,4 @@
 
 public class NullKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.NullKeyword;
 }

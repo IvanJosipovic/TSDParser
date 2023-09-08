@@ -1,7 +1,8 @@
-﻿namespace TSDParser.Class;
+﻿using System.Text.Json.Serialization;
+
+namespace TSDParser.Class;
 
 public class Identifier : Node
 {
-    public SyntaxKind Kind => SyntaxKind.Identifier;
-    public string Text { get; set; }
+    public string EscapedText { get; set; }
 }

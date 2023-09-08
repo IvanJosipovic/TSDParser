@@ -6,16 +6,25 @@
 
 ## What is this?
 
-This project is a C# TypeScript Definition Parser.
+This project uses Node.JS and returns a C# representation of the TypeScript Abstract Syntax Tree
 
-Features:
+## Requirements
 
-- Import and parse TypeScript Definitions to a light Abstract Syntax Tree
-- Supports:
-  - Classes
-  - Comments
-  - Imports
-  - Interfaces
-  - Methods
-  - Properties
-  - Types
+Node.JS must be installed for this library to work.
+
+## How to use
+
+```cshrap
+var parsed = await TSDParser.ParseDefinition("""
+/**
+* interface comment
+*/
+export interface Test1 {
+    /**
+    * prop comment
+    */
+    prop: string;
+    method(): void;
+}
+""");
+```
