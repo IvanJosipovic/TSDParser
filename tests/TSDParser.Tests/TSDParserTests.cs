@@ -14,16 +14,7 @@ public class TSDParserTests
     public async Task Test1()
     {
         var parsed = await TSDParser.ParseDefinition("""
-        /**
-        * interface comment
-        */
-        export interface Test1<T> {
-            /**
-            * prop comment
-            */
-            prop: string;
-            method(): void;
-        }
+        import { _MyClass } from '@org/package';
         """);
     }
 

@@ -339,7 +339,7 @@ public enum SyntaxKind
     JSDocNamepathType = 326,
     JSDoc = 327,
     /** @deprecated Use SyntaxKind.JSDoc */
-    JSDocComment = 327,
+    //JSDocComment = 327,
     JSDocText = 328,
     JSDocTypeLiteral = 329,
     JSDocSignature = 330,

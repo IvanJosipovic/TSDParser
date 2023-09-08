@@ -6,5 +6,5 @@ internal class NamespaceExportDeclaration : Node
 
     public Identifier Name { get; set; }
 
-    public JSDocComment[]? JSDoc { get; set; }
+    public JSDoc[]? JSDoc { get; set; }
 }

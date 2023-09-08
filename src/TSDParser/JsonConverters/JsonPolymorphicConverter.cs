@@ -2,6 +2,7 @@
 using System.Text.Json;
 
 namespace TSDParser;
+
 public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 {
     private readonly string _discriminatorPropertyName;
@@ -11,7 +12,7 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
         _discriminatorPropertyName = discriminatorPropertyName;
     }
 
-    public override bool CanConvert(Type typeToConvert) => typeToConvert.IsAssignableFrom(typeof(TBaseType));
+    public override bool CanConvert(Type typeToConvert) => typeof(TBaseType).IsAssignableFrom(typeToConvert) && typeToConvert != typeof(TBaseType);
 
     public override TBaseType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -23,7 +24,13 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 
         var @enum = ((SyntaxKind)typeDiscriminator);
 
-        var type = GetType().Assembly.GetTypes().First(x => x.Name == @enum.ToString());
+        var type = GetType().Assembly.GetTypes().FirstOrDefault(x => x.Name == @enum.ToString());
+
+        if (type == null)
+        {
+            type = typeof(Node);
+        }
+
         return (TBaseType?)jsonDoc.Deserialize(type, options);
     }
 
@@ -31,8 +38,6 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
     {
         var type = value!.GetType();
         writer.WriteStartObject();
-
-        //writer.WriteNumber(_discriminatorPropertyName, _subtypeToDiscriminator[type]);
 
         using var jsonDoc = JsonSerializer.SerializeToDocument(value, type, options);
         foreach (var prop in jsonDoc.RootElement.EnumerateObject())

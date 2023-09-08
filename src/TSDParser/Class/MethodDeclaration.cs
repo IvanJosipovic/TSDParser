@@ -16,5 +16,5 @@ public class MethodDeclaration : Node
 
     public QuestionToken? QuestionToken { get; set; }
 
-    public JSDocComment[]? JSDoc { get; set; }
+    public JSDoc[]? JSDoc { get; set; }
 }

@@ -14,5 +14,5 @@ public class ClassDeclaration : Node
 
     public List<TypeParameter>? TypeParameters { get; set; }
 
-    public JSDocComment[]? JSDoc { get; set; }
+    public JSDoc[]? JSDoc { get; set; }
 }

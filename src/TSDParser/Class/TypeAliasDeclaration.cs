@@ -12,5 +12,5 @@ public class TypeAliasDeclaration : Node
 
     public Node? Type { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public JSDoc[]? JSDoc { get; set; }
 }
