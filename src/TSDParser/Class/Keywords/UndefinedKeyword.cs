@@ -2,5 +2,5 @@
 
 public class UndefinedKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.UndefinedKeyword;
+    public SyntaxKind Kind { get; set; }
 }

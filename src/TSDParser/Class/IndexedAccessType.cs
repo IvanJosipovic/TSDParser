@@ -2,7 +2,7 @@
 
 public class IndexedAccessType : Node
 {
-    public SyntaxKind Kind => SyntaxKind.IndexedAccessType;
+    public SyntaxKind Kind { get; set; }
 
     public Node IndexType { get; set; }
 

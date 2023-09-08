@@ -2,7 +2,7 @@
 
 public class HeritageClause : Node
 {
-    public SyntaxKind Kind => SyntaxKind.HeritageClause;
+    public SyntaxKind Kind { get; set; }
 
     public List<ExpressionWithTypeArguments> Types { get; set; }
 }

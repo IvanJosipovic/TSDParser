@@ -1,8 +1,10 @@
-﻿namespace TSDParser.Class;
+﻿using System.Text.Json.Serialization;
 
-public class PropertySignature : Node, jsDoc
+namespace TSDParser.Class;
+
+public class PropertySignature : Node
 {
-    public SyntaxKind Kind => SyntaxKind.PropertySignature;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 
@@ -12,5 +14,5 @@ public class PropertySignature : Node, jsDoc
 
     public List<Node> Modifiers { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public JSDocComment[]? JSDoc { get; set; }
 }

@@ -1,9 +1,10 @@
 ﻿namespace TSDParser.Class;
 
-internal class NamespaceExportDeclaration : Node, jsDoc
+internal class NamespaceExportDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.NamespaceExportDeclaration;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
-    public JSDocComment? JSDoc { get; set; }
+
+    public JSDocComment[]? JSDoc { get; set; }
 }

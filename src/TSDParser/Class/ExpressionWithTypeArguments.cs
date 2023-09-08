@@ -2,7 +2,7 @@
 
 public class ExpressionWithTypeArguments : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ExpressionWithTypeArguments;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Expression { get; set; }
 

@@ -2,5 +2,5 @@
 
 public class ProtectedKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ProtectedKeyword;
+    public SyntaxKind Kind { get; set; }
 }

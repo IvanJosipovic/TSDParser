@@ -2,5 +2,5 @@
 
 public class QuestionToken : Node
 {
-    public SyntaxKind Kind => SyntaxKind.QuestionToken;
+    public SyntaxKind Kind { get; set; }
 }

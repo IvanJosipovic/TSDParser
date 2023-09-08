@@ -2,7 +2,7 @@
 
 public class TypeReference : Node
 {
-    public SyntaxKind Kind => SyntaxKind.TypeReference;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier TypeName { get; set; }
 

@@ -2,5 +2,5 @@
 
 public class BooleanKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.BooleanKeyword;
+    public SyntaxKind Kind { get; set; }
 }

@@ -2,7 +2,7 @@
 
 public class ExportSpecifier : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ExportSpecifier;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 

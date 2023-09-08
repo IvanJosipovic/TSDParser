@@ -2,7 +2,7 @@
 
 public class ImportDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ImportDeclaration;
+    public SyntaxKind Kind { get; set; }
 
     public ImportClause ImportClause { get; set; }
 

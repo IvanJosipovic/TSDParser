@@ -1,12 +1,12 @@
 ﻿namespace TSDParser.Class;
 
-public class EnumMember : Node, jsDoc
+public class EnumMember : Node
 {
-    public SyntaxKind Kind => SyntaxKind.EnumMember;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 
     public Node Initializer { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public JSDocComment[]? JSDoc { get; set; }
 }

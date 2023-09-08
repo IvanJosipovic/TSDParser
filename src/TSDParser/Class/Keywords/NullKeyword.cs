@@ -2,5 +2,5 @@
 
 public class NullKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.NullKeyword;
+    public SyntaxKind Kind { get; set; }
 }

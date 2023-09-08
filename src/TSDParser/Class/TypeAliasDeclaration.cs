@@ -2,7 +2,7 @@
 
 public class TypeAliasDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.TypeAliasDeclaration;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 

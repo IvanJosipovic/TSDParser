@@ -2,5 +2,5 @@
 
 public class VoidKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.VoidKeyword;
+    public SyntaxKind Kind { get; set; }
 }

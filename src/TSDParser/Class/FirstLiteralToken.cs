@@ -2,7 +2,7 @@
 
 public class FirstLiteralToken : Node
 {
-    public SyntaxKind Kind => SyntaxKind.FirstLiteralToken;
+    public SyntaxKind Kind { get; set; }
 
     public string Text { get; set; }
 }

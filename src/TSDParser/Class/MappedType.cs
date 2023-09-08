@@ -2,7 +2,7 @@
 
 public class MappedType : Node
 {
-    public SyntaxKind Kind => SyntaxKind.MappedType;
+    public SyntaxKind Kind { get; set; }
 
     public TypeParameter TypeParameter { get; set; }
 

@@ -2,7 +2,7 @@
 
 public class Parameter : Node
 {
-    public SyntaxKind Kind => SyntaxKind.Parameter;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 

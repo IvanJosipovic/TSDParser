@@ -1,8 +1,8 @@
 ﻿namespace TSDParser.Class;
 
-public class MethodDeclaration : Node, jsDoc
+public class MethodDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.MethodDeclaration;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 
@@ -16,5 +16,5 @@ public class MethodDeclaration : Node, jsDoc
 
     public QuestionToken? QuestionToken { get; set; }
 
-    public JSDocComment? JSDoc { get; set; }
+    public JSDocComment[]? JSDoc { get; set; }
 }

@@ -2,7 +2,7 @@
 
 public class TypeOperator : Node
 {
-    public SyntaxKind Kind => SyntaxKind.TypeOperator;
+    public SyntaxKind Kind { get; set; }
 
     public Node Type { get; set; }
 }

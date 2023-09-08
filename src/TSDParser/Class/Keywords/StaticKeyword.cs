@@ -2,5 +2,5 @@
 
 public class StaticKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.StaticKeyword;
+    public SyntaxKind Kind { get; set; }
 }

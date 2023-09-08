@@ -1,8 +1,10 @@
-﻿namespace TSDParser.Class;
+﻿using System.Text.Json.Serialization;
+
+namespace TSDParser.Class;
 
 public class TypeParameter : Node
 {
-    public SyntaxKind Kind => SyntaxKind.TypeParameter;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 

@@ -2,5 +2,5 @@
 
 public class ReadonlyKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ReadonlyKeyword;
+    public SyntaxKind Kind { get; set; }
 }

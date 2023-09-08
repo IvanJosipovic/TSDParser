@@ -2,5 +2,5 @@
 
 internal class PrivateKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.PrivateKeyword;
+    public SyntaxKind Kind { get; set; }
 }

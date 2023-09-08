@@ -2,7 +2,7 @@
 
 public class FunctionType : Node
 {
-    public SyntaxKind Kind => SyntaxKind.FunctionType;
+    public SyntaxKind Kind { get; set; }
 
     public Node Type { get; set; }
 

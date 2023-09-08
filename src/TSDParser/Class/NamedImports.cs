@@ -2,7 +2,7 @@
 
 public class NamedImports : Node
 {
-    public SyntaxKind Kind => SyntaxKind.NamedImports;
+    public SyntaxKind Kind { get; set; }
 
     public List<ImportSpecifier> Elements { get; set; }
 }

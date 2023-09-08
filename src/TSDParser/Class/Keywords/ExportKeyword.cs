@@ -2,5 +2,5 @@
 
 public class ExportKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ExportKeyword;
+    public SyntaxKind Kind { get; set; }
 }

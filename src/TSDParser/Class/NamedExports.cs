@@ -2,7 +2,7 @@
 
 public class NamedExports : Node
 {
-    public SyntaxKind Kind => SyntaxKind.NamedExports;
+    public SyntaxKind Kind { get; set; }
 
     public List<ExportSpecifier>? Elements { get; set; }
 }

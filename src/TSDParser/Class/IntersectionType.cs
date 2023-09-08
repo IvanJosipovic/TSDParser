@@ -2,7 +2,7 @@
 
 public class IntersectionType : Node
 {
-    public SyntaxKind Kind => SyntaxKind.IntersectionType;
+    public SyntaxKind Kind { get; set; }
 
     public List<Node> Types { get; set; }
 }

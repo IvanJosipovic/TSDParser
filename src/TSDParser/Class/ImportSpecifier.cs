@@ -2,7 +2,7 @@
 
 public class ImportSpecifier : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ImportSpecifier;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 

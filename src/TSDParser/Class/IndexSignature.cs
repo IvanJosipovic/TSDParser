@@ -2,7 +2,7 @@
 
 public class IndexSignature : Node
 {
-    public SyntaxKind Kind => SyntaxKind.IndexSignature;
+    public SyntaxKind Kind { get; set; }
 
     public List<Parameter> Parameters { get; set; }
 

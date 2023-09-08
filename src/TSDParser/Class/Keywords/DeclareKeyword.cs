@@ -2,5 +2,5 @@
 
 public class DeclareKeyword : Node
 {
-    public SyntaxKind Kind => SyntaxKind.DeclareKeyword;
+    public SyntaxKind Kind { get; set; }
 }

@@ -2,7 +2,7 @@
 
 public class ConstructorType : Node
 {
-    public SyntaxKind Kind => SyntaxKind.ConstructorType;
+    public SyntaxKind Kind { get; set; }
 
     public Node Type { get; set; }
 

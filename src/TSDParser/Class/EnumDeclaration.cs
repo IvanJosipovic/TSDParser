@@ -1,8 +1,8 @@
 ﻿namespace TSDParser.Class;
 
-public class EnumDeclaration : Node, jsDoc
+public class EnumDeclaration : Node
 {
-    public SyntaxKind Kind => SyntaxKind.EnumDeclaration;
+    public SyntaxKind Kind { get; set; }
 
     public Identifier Name { get; set; }
 
