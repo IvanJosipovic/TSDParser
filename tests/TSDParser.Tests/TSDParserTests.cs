@@ -18,6 +18,11 @@ public class TSDParserTests
         """);
     }
 
+    public async Task TestTSD()
+    {
+        var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/typescript.d.ts"));
+    }
+
     [Fact]
     public async Task TestFullTSD()
     {
