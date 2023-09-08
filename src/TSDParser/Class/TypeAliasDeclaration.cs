@@ -2,8 +2,6 @@
 
 public class TypeAliasDeclaration : Node
 {
-    public SyntaxKind Kind { get; set; }
-
     public Identifier Name { get; set; }
 
     public List<Node> Modifiers { get; set; }
@@ -12,5 +10,5 @@ public class TypeAliasDeclaration : Node
 
     public Node? Type { get; set; }
 
-    public JSDoc[]? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

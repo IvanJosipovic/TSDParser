@@ -2,8 +2,6 @@
 
 public class InterfaceDeclaration : Node
 {
-    public SyntaxKind Kind { get; set; }
-
     public Identifier Name { get; set; }
 
     public List<Node> Members { get; set; }
@@ -14,5 +12,5 @@ public class InterfaceDeclaration : Node
 
     public List<TypeParameter>? TypeParameters { get; set; }
 
-    public JSDoc[]? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

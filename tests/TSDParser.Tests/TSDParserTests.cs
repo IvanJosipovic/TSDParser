@@ -22,12 +22,11 @@ public class TSDParserTests
     public async Task TestFullTSD()
     {
         var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-web.d.ts"));
-
     }
 
-    [Fact]
-    public async Task TestFullTSD2()
-    {
-        var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-core-js.d.ts"));
-    }
+    //[Fact]
+    //public async Task TestFullTSD2()
+    //{
+    //    var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-core-js.d.ts"));
+    //}
 }

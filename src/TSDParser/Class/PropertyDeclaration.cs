@@ -2,8 +2,6 @@
 
 public class PropertyDeclaration : Node
 {
-    public SyntaxKind Kind { get; set; }
-
     public Identifier Name { get; set; }
 
     public Node Type { get; set; }
@@ -12,5 +10,5 @@ public class PropertyDeclaration : Node
 
     public List<Node> Modifiers { get; set; }
 
-    public JSDoc[]? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

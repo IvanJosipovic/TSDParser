@@ -7,12 +7,14 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 {
     private readonly string _discriminatorPropertyName;
 
+    private static Dictionary<SyntaxKind, Type> keyValuePairs = new Dictionary<SyntaxKind, Type>();
+
     public JsonPolymorphicConverter(string discriminatorPropertyName)
     {
         _discriminatorPropertyName = discriminatorPropertyName;
     }
 
-    public override bool CanConvert(Type typeToConvert) => typeof(TBaseType).IsAssignableFrom(typeToConvert) && typeToConvert != typeof(TBaseType);
+    //public override bool CanConvert(Type typeToConvert) => typeof(TBaseType).IsAssignableFrom(typeToConvert) && typeToConvert != typeof(TBaseType);
 
     public override TBaseType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -24,11 +26,25 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 
         var @enum = ((SyntaxKind)typeDiscriminator);
 
-        var type = GetType().Assembly.GetTypes().FirstOrDefault(x => x.Name == @enum.ToString());
+        Type type = null;
 
-        if (type == null)
+        if (keyValuePairs.TryGetValue(@enum, out Type value))
         {
-            type = typeof(Node);
+            type = value;
+        }
+        else
+        {
+            type = GetType().Assembly.GetTypes().FirstOrDefault(x => x.Name == @enum.ToString());
+
+            if (type == null)
+            {
+                type = typeof(Node);
+                keyValuePairs.Add(@enum, type);
+
+                return (TBaseType?)jsonDoc.Deserialize(type, RemoveThisFromOptions(options));
+            }
+
+            keyValuePairs.Add(@enum, type);
         }
 
         return (TBaseType?)jsonDoc.Deserialize(type, options);
@@ -47,5 +63,12 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
         }
 
         writer.WriteEndObject();
+    }
+
+    private JsonSerializerOptions RemoveThisFromOptions(JsonSerializerOptions options)
+    {
+        JsonSerializerOptions newOptions = new(options);
+        newOptions.Converters.Remove(this); // NOTE: We'll get an infinite loop if we don't do this
+        return newOptions;
     }
 }

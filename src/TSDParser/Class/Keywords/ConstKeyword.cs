@@ -2,5 +2,4 @@
 
 public class ConstKeyword : Node
 {
-    public SyntaxKind Kind { get; set; }
 }

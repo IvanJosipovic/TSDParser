@@ -2,5 +2,4 @@
 
 public class ExportKeyword : Node
 {
-    public SyntaxKind Kind { get; set; }
 }

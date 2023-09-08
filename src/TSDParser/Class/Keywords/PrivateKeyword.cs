@@ -2,5 +2,4 @@
 
 internal class PrivateKeyword : Node
 {
-    public SyntaxKind Kind { get; set; }
 }

@@ -2,8 +2,6 @@
 
 public class MethodDeclaration : Node
 {
-    public SyntaxKind Kind { get; set; }
-
     public Identifier Name { get; set; }
 
     public Node Type { get; set; }
@@ -16,5 +14,5 @@ public class MethodDeclaration : Node
 
     public QuestionToken? QuestionToken { get; set; }
 
-    public JSDoc[]? JSDoc { get; set; }
+    public List<JSDoc>? JSDoc { get; set; }
 }

@@ -2,5 +2,4 @@
 
 public class DeclareKeyword : Node
 {
-    public SyntaxKind Kind { get; set; }
 }
