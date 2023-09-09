@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace TSDParser.Tests;
+﻿namespace TSDParser.Tests;
 
 public class TSDParserTests
 {
@@ -14,10 +12,13 @@ public class TSDParserTests
     public async Task Test1()
     {
         var parsed = await TSDParser.ParseDefinition("""
-        import { _MyClass } from '@org/package';
-        """);
+            export class SomeType {
+              method(): void;
+            }
+            """);
     }
 
+    [Fact]
     public async Task TestTSD()
     {
         var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/typescript.d.ts"));
@@ -29,9 +30,9 @@ public class TSDParserTests
         var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-web.d.ts"));
     }
 
-    //[Fact]
-    //public async Task TestFullTSD2()
-    //{
-    //    var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-core-js.d.ts"));
-    //}
+    [Fact]
+    public async Task TestFullTSD2()
+    {
+        var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-core-js.d.ts"));
+    }
 }

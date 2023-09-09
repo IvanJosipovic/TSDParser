@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TSDParser.Class;
+﻿namespace TSDParser.Class;
 
 public class SourceFile : Node
 {
