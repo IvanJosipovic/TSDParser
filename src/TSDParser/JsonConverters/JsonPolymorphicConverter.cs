@@ -7,8 +7,6 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 {
     private readonly string _discriminatorPropertyName;
 
-    private static Dictionary<SyntaxKind, Type> keyValuePairs = new Dictionary<SyntaxKind, Type>();
-
     public JsonPolymorphicConverter(string discriminatorPropertyName)
     {
         _discriminatorPropertyName = discriminatorPropertyName;
@@ -26,25 +24,13 @@ public class JsonPolymorphicConverter<TBaseType> : JsonConverter<TBaseType>
 
         var @enum = ((SyntaxKind)typeDiscriminator);
 
-        Type type = null;
+        Type type = GetType().Assembly.GetTypes().FirstOrDefault(x => x.Name == @enum.ToString());
 
-        if (keyValuePairs.TryGetValue(@enum, out Type value))
+        if (type == null)
         {
-            type = value;
-        }
-        else
-        {
-            type = GetType().Assembly.GetTypes().FirstOrDefault(x => x.Name == @enum.ToString());
+            type = typeof(TBaseType);
 
-            if (type == null)
-            {
-                type = typeof(Node);
-                keyValuePairs.Add(@enum, type);
-
-                return (TBaseType?)jsonDoc.Deserialize(type, RemoveThisFromOptions(options));
-            }
-
-            keyValuePairs.Add(@enum, type);
+            return (TBaseType?)jsonDoc.Deserialize(type, RemoveThisFromOptions(options));
         }
 
         return (TBaseType?)jsonDoc.Deserialize(type, options);
