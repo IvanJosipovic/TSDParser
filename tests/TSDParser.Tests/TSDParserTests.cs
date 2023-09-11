@@ -35,4 +35,10 @@ public class TSDParserTests
     {
         var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/applicationinsights-core-js.d.ts"));
     }
+
+    [Fact]
+    public async Task TestFullTSD3()
+    {
+        var parsed = await TSDParser.ParseDefinition(File.ReadAllText("../../../../../samples/definitions/ts-utils.d.ts"));
+    }
 }
