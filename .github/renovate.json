@@ -13,8 +13,8 @@
     {
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchCurrentVersion": "!/^0/",
-      "automerge": true,
-      "extends": [":semanticCommitTypeAll(fix)"],
+      "automerge": false,
+      "semanticCommitType": "fix",
       "matchFileNames": [
         "src/**"
       ]
@@ -22,7 +22,7 @@
     {
       "matchUpdateTypes": [ "minor", "patch", "digest" ],
       "matchCurrentVersion": "!/^0/",
-      "automerge": true,
+      "automerge": false,
       "matchFileNames": [
         "tests/**",
         "benchmarks/**",
