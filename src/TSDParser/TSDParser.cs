@@ -9,11 +9,11 @@ public static class TSDParser
     public static async Task<SourceFile?> ParseDefinition(string definition)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var resourceName = "TSDParser.wrapper.js";
+        var resourceName = "TSDParser.dist.bundle.js";
 
         using Stream stream = assembly.GetManifestResourceStream(resourceName);
 
-        var result = await StaticNodeJSService.InvokeFromStreamAsync<string>(stream, "wrapper.js", null , args: new object[] { definition });
+        var result = await StaticNodeJSService.InvokeFromStreamAsync<string>(stream, "bundle.js", null, args: new object[] { definition });
 
         return JsonSerializer.Deserialize<SourceFile>(result!, new JsonSerializerOptions
         {
