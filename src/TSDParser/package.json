@@ -1,0 +1,18 @@
+{
+  "name": "tsdparser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "npx esbuild main.js --bundle --minify --target=esnext --platform=node --outfile=dist/bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.3"
+  }
+}
