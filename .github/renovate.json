@@ -14,10 +14,16 @@
     {
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": false,
+      "excludePackageNames": ["esbuild"],
       "semanticCommitType": "fix",
       "matchFileNames": [
         "src/**"
       ]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "matchPackageNames": ["esbuild"]
     },
     {
       "matchUpdateTypes": [ "minor", "patch", "digest" ],
