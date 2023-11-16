@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Jering.Javascript.NodeJS" Version="7.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
 
