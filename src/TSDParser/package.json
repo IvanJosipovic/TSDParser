@@ -13,6 +13,6 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "esbuild": "^0.19.3"
+    "esbuild": "^0.20.0"
   }
 }
